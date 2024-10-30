@@ -6,7 +6,6 @@ namespace entity {
 struct Entity {
     double x;
     double y;
-    EntityState state;
 };
 
 }  // namespace entity
