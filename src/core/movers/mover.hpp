@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "src/entities/entity.h"
+#include "src/entities/entity.hpp"
 
 namespace mover {
 class Mover {

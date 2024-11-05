@@ -2,9 +2,9 @@
 
 #include <vector>
 
-#include "src/core/metrics/metric.h"
-#include "src/entities/entity.h"
-#include "src/entities/states.h"
+#include "src/core/metrics/metric.hpp"
+#include "src/entities/entity.hpp"
+#include "src/entities/states.hpp"
 
 namespace algo {
 class Algorithm {
