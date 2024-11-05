@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
 #include "src/core/metrics/metric.hpp"
@@ -10,7 +11,7 @@ namespace algo {
 class Algorithm {
 protected:
     double r_;
-    Metric* metric_;
+    std::unique_ptr<Metric> metric_;
 
 public:
     Algorithm(double r, Metric* metric) : r_(r), metric_(metric) {}
