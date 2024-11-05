@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/entities/entity.h"
+#include "src/entities/entity.hpp"
 
 namespace algo {
 class Metric {

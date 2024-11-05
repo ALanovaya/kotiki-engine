@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/entities/states.h"
+#include "src/entities/states.hpp"
 
 namespace entity {
 struct Entity {
