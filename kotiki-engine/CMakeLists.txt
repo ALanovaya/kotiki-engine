@@ -16,10 +16,3 @@ set(SRC_FILES
 #####################################
 
 add_executable(${TARGET_NAME} ${SRC_FILES})
-
-target_include_directories(
-    ${TARGET_NAME}
-    SYSTEM
-    PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-)
