@@ -1,8 +1,7 @@
 #pragma once
 
+#include <kotiki-engine/entities/entity.hpp>
 #include <vector>
-
-#include "src/entities/entity.hpp"
 
 namespace mover {
 class Mover {
