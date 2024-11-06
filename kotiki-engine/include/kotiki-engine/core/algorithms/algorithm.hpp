@@ -1,11 +1,10 @@
 #pragma once
 
+#include <kotiki-engine/core/metrics/metric.hpp>
+#include <kotiki-engine/entities/entity.hpp>
+#include <kotiki-engine/entities/states.hpp>
 #include <memory>
 #include <vector>
-
-#include "src/core/metrics/metric.hpp"
-#include "src/entities/entity.hpp"
-#include "src/entities/states.hpp"
 
 namespace algo {
 class Algorithm {
