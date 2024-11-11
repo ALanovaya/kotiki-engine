@@ -9,11 +9,12 @@
 namespace algo {
 class Algorithm {
 protected:
-    double r_;
-    std::unique_ptr<Metric> metric_;
+    double R0_;
+    double R1_;
+    std::shared_ptr<Metric> metric_;
 
 public:
-    Algorithm(double r, Metric* metric) : r_(r), metric_(metric) {}
+    Algorithm(double R0, double R1, Metric* metric) : R0_(R0), R1_(R1), metric_(metric) {}
 
     virtual std::vector<entity::EntityState> GetStates(std::vector<entity::Entity>& entities) = 0;
 };
