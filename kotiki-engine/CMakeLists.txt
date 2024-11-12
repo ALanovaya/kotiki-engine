@@ -9,6 +9,10 @@ set(TARGET_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(SRC_FILES
     ${TARGET_SOURCE_DIR}/kotiki-engine/main.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/algorithms/naive.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/algorithms/grid_lookup.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/metrics/euclidean.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/movers/random_mover.cpp
 )
 
 #####################################
