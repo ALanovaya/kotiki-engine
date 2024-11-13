@@ -1,18 +1,19 @@
 name: clang-format
 
+
 on: [push, pull_request]
 
 jobs:
-  format-check:
+  clang-format:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2 
+        uses: actions/checkout@v2
 
-      - name: Install clang-format
-        run: sudo apt-get install clang-format  
+      - name: Set up Clang Format
+        run: sudo apt-get install clang-format
 
-      - name: Check formatting
+      - name: Run Clang Format
         run: |
-          git diff --exit-code <(clang-format -style=file -n $(git ls-files '*.cpp' '*.hpp'))
+          git diff --exit-code --name-only | grep '\.cpp\|\.hpp' | xargs clang-format --dry-run --Werror
