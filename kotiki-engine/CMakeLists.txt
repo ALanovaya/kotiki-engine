@@ -7,7 +7,10 @@ set(TARGET_NAME kotiki-engine)
 set(TARGET_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(TARGET_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-set(SRC_FILES ${TARGET_SOURCE_DIR}/kotiki-engine/main.cpp)
+set(SRC_FILES
+    ${TARGET_SOURCE_DIR}/kotiki-engine/main.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/trajectory/trajectory.cpp
+)
 
 #####################################
 # Define Target
