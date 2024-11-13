@@ -18,6 +18,7 @@ set(PROJECT_SRC_FILES
 set(TESTS_SRC_FILES
     main.cpp
     test-test.cpp
+    test_algorithm.cpp
 )
 
 #####################################
