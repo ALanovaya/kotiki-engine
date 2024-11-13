@@ -17,6 +17,8 @@ set(SRC_FILES
 
 add_executable(${TARGET_NAME} ${SRC_FILES})
 
+target_link_libraries(${TARGET_NAME} PRIVATE Qt::Core Qt::Widgets Qt::Gui )
+
 target_include_directories(
         ${TARGET_NAME}
         SYSTEM
