@@ -6,7 +6,10 @@ std::vector<entity::EntityState> NaiveAlgorithm::GetStates(std::vector<entity::E
     std::vector<entity::EntityState> states(entities.size(), entity::EntityState::Calm);
 
     for (int i = 0; i < entities.size(); ++i) {
-        for (int j = i + 1; j < entities.size(); ++j) {
+        for (int j = 0; j < entities.size(); ++j) {
+            if (i == j) {
+                continue;
+            }
             auto dist = metric_->Calculate(entities[i], entities[j]);
             if (dist <= R0_) {
                 states[i] = entity::EntityState::Fighting;
