@@ -23,3 +23,5 @@ target_include_directories(
         PUBLIC
         $<BUILD_INTERFACE:${TARGET_INCLUDE_DIR}>
 )
+
+target_link_libraries(${TARGET_NAME} PRIVATE matheval::qi)
