@@ -77,3 +77,6 @@ Thumbs.db
 # Custom backup files
 *.bak
 *~
+
+# Cache directory
+.cache
