@@ -7,9 +7,7 @@ set(TARGET_NAME kotiki-engine)
 set(TARGET_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(TARGET_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-set(SRC_FILES
-    ${TARGET_SOURCE_DIR}/kotiki-engine/main.cpp
-)
+set(SRC_FILES ${TARGET_SOURCE_DIR}/kotiki-engine/main.cpp)
 
 #####################################
 # Define Target
@@ -23,3 +21,5 @@ target_include_directories(
         PUBLIC
         $<BUILD_INTERFACE:${TARGET_INCLUDE_DIR}>
 )
+
+target_link_libraries(${TARGET_NAME} PRIVATE matheval::x3)
