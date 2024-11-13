@@ -1,4 +1,3 @@
-
 name: clang-format
 
 on: [push, pull_request]
@@ -16,4 +15,4 @@ jobs:
 
       - name: Check formatting
         run: |
-          git diff --exit-code <(clang-format -style=file -n $(find . -name '*.cpp' -o -name '*.hpp'))
+          git diff --exit-code <(clang-format -style=file -n $(git ls-files '*.cpp' '*.hpp'))
