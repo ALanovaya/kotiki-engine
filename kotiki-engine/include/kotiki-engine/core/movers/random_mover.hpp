@@ -1,3 +1,5 @@
+#pragma once
+
 #include <kotiki-engine/core/movers/mover.hpp>
 
 namespace mover {

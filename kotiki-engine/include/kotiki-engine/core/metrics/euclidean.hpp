@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cmath>
 #include <kotiki-engine/core/metrics/metric.hpp>
 
