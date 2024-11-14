@@ -1,6 +1,7 @@
-#include <kotiki-engine/core/trajectory/trajectory.hpp>
-#include <gtest/gtest.h>
 #include <cmath>
+#include <kotiki-engine/core/trajectory/trajectory.hpp>
+
+#include <gtest/gtest.h>
 
 namespace {
 TEST(TestTrajectory, LinearTrajectoryTest) {
@@ -81,4 +82,4 @@ TEST(TestTrajectory, InvalidExpressionTest) {
     EXPECT_THROW(invalid_trajectory.GetPosition(start_coordinates, 1), std::invalid_argument);
 }
 
-} // namespace
+}  // namespace
