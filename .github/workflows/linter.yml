@@ -2,14 +2,14 @@ name: clang-tidy-review
 
 on:
   pull_request:
-    paths:
-      - '**.cxx'
-      - '**.hxx'
     branches: [ main, develop ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  pull-requests: write
 
 jobs:
   review:
