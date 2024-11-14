@@ -20,9 +20,8 @@ jobs:
       run: cmake -B build -S .
 
     - name: Build
-      run: cmake --build build
+      run: cmake --build build --config Release
 
-    # - name: Run tests
-    #   run: |
-    #     cd build
-    #     ctest
+    - name: Run tests
+      run: ctest -C Release
+      working-directory: /build/tests
