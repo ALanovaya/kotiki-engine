@@ -2,46 +2,69 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QLabel>
 #include <QMainWindow>
+#include <QStatusBar>
+#include <QTimer>
 #include <QWheelEvent>
+#include <cmath>
 
-class CustomGraphicsView : public QGraphicsView {
+#include "kotiki-engine/graphics/fps_counter.hpp"
+#include "kotiki-engine/graphics/view.hpp"
+
+class MovingCircle : public QGraphicsEllipseItem {
 public:
-    CustomGraphicsView(QWidget* parent = nullptr) : QGraphicsView(parent) {
-        setRenderHint(QPainter::Antialiasing);
-        setDragMode(QGraphicsView::ScrollHandDrag);
-        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-        setResizeAnchor(QGraphicsView::AnchorUnderMouse);
+    MovingCircle(qreal radius, qreal orbitRadius, qreal speed)
+        : m_radius(radius), m_orbitRadius(orbitRadius), m_speed(speed), m_angle(0) {
+        setRect(-radius, -radius, radius * 2, radius * 2);
+        setBrush(QBrush(Qt::red));
     }
 
-protected:
-    void wheelEvent(QWheelEvent* event) override {
-        double scaleFactor = 1.15;
-        if (event->angleDelta().y() > 0) {
-            scale(scaleFactor, scaleFactor);
-        } else {
-            scale(1.0 / scaleFactor, 1.0 / scaleFactor);
-        }
+    void advance(int phase) {
+        if (!phase) return;
+        m_angle += m_speed;
+        setPos(m_orbitRadius * cos(m_angle), m_orbitRadius * sin(m_angle));
     }
+
+private:
+    qreal m_radius;
+    qreal m_orbitRadius;
+    qreal m_speed;
+    qreal m_angle;
 };
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
     QMainWindow mainWindow;
-    mainWindow.setWindowTitle("Graphics Scene with Circle");
+    mainWindow.setWindowTitle("Two Circles Orbiting");
     mainWindow.resize(800, 600);
 
     QGraphicsScene* scene = new QGraphicsScene(&mainWindow);
-    scene->setBackgroundBrush(QColor(100, 150, 255));
+    scene->setSceneRect(-300, -300, 600, 600);
 
-    CustomGraphicsView* view = new CustomGraphicsView();
-    view->setScene(scene);
-
-    QGraphicsEllipseItem* circle =
-            scene->addEllipse(0, 0, 100, 100, QPen(Qt::black), QBrush(Qt::red));
-
+    ResizableGraphicsView* view = new ResizableGraphicsView(scene);
     mainWindow.setCentralWidget(view);
+
+    // Create two circles
+    MovingCircle* circle1 = new MovingCircle(20, 100, 0.05);
+    MovingCircle* circle2 = new MovingCircle(15, 200, 0.03);
+
+    scene->addItem(circle1);
+    scene->addItem(circle2);
+
+    QTimer timer;
+    QObject::connect(&timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
+    timer.start(10);
+
+    FPSCounter fpsCounter;
+    QLabel* fpsLabel = new QLabel(&mainWindow);
+    mainWindow.statusBar()->addPermanentWidget(fpsLabel);
+
+    QObject::connect(&fpsCounter, &FPSCounter::fpsUpdated,
+                     [fpsLabel](int fps) { fpsLabel->setText(QString("FPS: %1").arg(fps)); });
+
+    QObject::connect(&timer, &QTimer::timeout, &fpsCounter, &FPSCounter::frameRendered);
 
     mainWindow.show();
 

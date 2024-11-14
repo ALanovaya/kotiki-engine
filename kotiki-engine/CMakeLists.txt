@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.10.2)
+
 #####################################
 # Define Target Information
 #####################################
@@ -9,17 +11,28 @@ set(TARGET_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(SRC_FILES
     ${TARGET_SOURCE_DIR}/kotiki-engine/main.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/graphics/fps_counter.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/graphics/view.cpp
+)
+
+set(INCLUDE_FILES
+    ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/fps_counter.hpp
+    ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/view.hpp
 )
 
 #####################################
 # Define Target
 #####################################
 
-add_executable(${TARGET_NAME} ${SRC_FILES})
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 COMPONENTS Widgets Core Gui REQUIRED)
 
-target_link_libraries(${TARGET_NAME} PRIVATE Qt::Core Qt::Widgets Qt::Gui )
+add_executable(${TARGET_NAME} ${SRC_FILES} ${INCLUDE_FILES})
+
+target_link_libraries(${TARGET_NAME} PRIVATE Qt6::Core Qt6::Widgets Qt6::Gui )
 
 target_include_directories(
         ${TARGET_NAME}
