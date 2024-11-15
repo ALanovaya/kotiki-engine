@@ -10,6 +10,7 @@
 #include <QTimer>
 #include <QWheelEvent>
 #include <cmath>
+#include <memory>
 
 #include "kotiki-engine/graphics/fps_counter.hpp"
 #include "kotiki-engine/graphics/view.hpp"
@@ -43,26 +44,26 @@ int main(int argc, char* argv[]) {
 
     QPixmap pixmap("asserts/textures/grass.png");
 
-    QGraphicsScene* scene = new QGraphicsScene(&main_window);
+    auto scene = std::make_unique<QGraphicsScene>(&main_window);
     scene->setSceneRect(-300, -300, 600, 600);
     scene->setBackgroundBrush(QBrush(pixmap));
 
-    graphics::ResizableGraphicsView* view = new graphics::ResizableGraphicsView(scene);
-    main_window.setCentralWidget(view);
+    auto view = std::make_unique<graphics::ResizableGraphicsView>(scene.get());
+    main_window.setCentralWidget(view.get());
 
     // Load images
     QPixmap image1("asserts/textures/pushin.png");
     QPixmap image2("asserts/textures/pushin.png");
 
     // Create two images
-    MovingPixmap* image_item1 = new MovingPixmap(image1, 100, 0.05);
-    MovingPixmap* image_item2 = new MovingPixmap(image2, 200, 0.03);
+    auto image_item1 = std::make_unique<MovingPixmap>(image1, 100, 0.05);
+    auto image_item2 = std::make_unique<MovingPixmap>(image2, 200, 0.03);
 
-    scene->addItem(image_item1);
-    scene->addItem(image_item2);
+    scene->addItem(image_item1.get());
+    scene->addItem(image_item2.get());
 
     QTimer timer;
-    QObject::connect(&timer, &QTimer::timeout, scene, &QGraphicsScene::advance);
+    QObject::connect(&timer, &QTimer::timeout, scene.get(), &QGraphicsScene::advance);
     timer.start(10);
 
     graphics::widgets::FPSCounter fps_counter;

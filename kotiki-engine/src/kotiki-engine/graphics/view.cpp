@@ -1,6 +1,7 @@
 #include "kotiki-engine/graphics/view.hpp"
 
-graphics::ResizableGraphicsView::ResizableGraphicsView(QGraphicsScene* scene, QWidget* parent)
+namespace graphics {
+ResizableGraphicsView::ResizableGraphicsView(QGraphicsScene* scene, QWidget* parent)
     : QGraphicsView(scene, parent), isDragging_(false) {
     setRenderHint(QPainter::Antialiasing);
     setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
@@ -10,7 +11,7 @@ graphics::ResizableGraphicsView::ResizableGraphicsView(QGraphicsScene* scene, QW
     setDragMode(QGraphicsView::NoDrag);
 }
 
-void graphics::ResizableGraphicsView::resizeEvent(QResizeEvent* event) {
+void ResizableGraphicsView::resizeEvent(QResizeEvent* event) {
     QGraphicsView::resizeEvent(event);
 
     QPointF center = mapToScene(viewport()->rect().center());
@@ -21,7 +22,7 @@ void graphics::ResizableGraphicsView::resizeEvent(QResizeEvent* event) {
     translate(delta.x(), delta.y());
 }
 
-void graphics::ResizableGraphicsView::wheelEvent(QWheelEvent* event) {
+void ResizableGraphicsView::wheelEvent(QWheelEvent* event) {
     double const scale_factor = (event->angleDelta().y() > 0) ? 1.15 : 1.0 / 1.15;
     QPoint global_pos = event->globalPosition().toPoint();
     QPoint widget_pos = mapFromGlobal(global_pos);
@@ -36,7 +37,7 @@ void graphics::ResizableGraphicsView::wheelEvent(QWheelEvent* event) {
     event->accept();
 }
 
-void graphics::ResizableGraphicsView::mousePressEvent(QMouseEvent* event) {
+void ResizableGraphicsView::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         isDragging_ = true;
         lastMousePos_ = event->pos();
@@ -47,7 +48,7 @@ void graphics::ResizableGraphicsView::mousePressEvent(QMouseEvent* event) {
     }
 }
 
-void graphics::ResizableGraphicsView::mouseMoveEvent(QMouseEvent* event) {
+void ResizableGraphicsView::mouseMoveEvent(QMouseEvent* event) {
     if (isDragging_) {
         QPointF delta = mapToScene(lastMousePos_) - mapToScene(event->pos());
         QRectF new_scene_rect = sceneRect();
@@ -61,7 +62,7 @@ void graphics::ResizableGraphicsView::mouseMoveEvent(QMouseEvent* event) {
     }
 }
 
-void graphics::ResizableGraphicsView::mouseReleaseEvent(QMouseEvent* event) {
+void ResizableGraphicsView::mouseReleaseEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton && isDragging_) {
         isDragging_ = false;
         setCursor(Qt::ArrowCursor);
@@ -70,3 +71,4 @@ void graphics::ResizableGraphicsView::mouseReleaseEvent(QMouseEvent* event) {
         QGraphicsView::mouseReleaseEvent(event);
     }
 }
+}  // namespace graphics
