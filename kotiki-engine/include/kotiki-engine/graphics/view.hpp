@@ -9,6 +9,7 @@
 #include <QWheelEvent>
 #include <cmath>
 
+namespace graphics {
 class ResizableGraphicsView : public QGraphicsView {
     Q_OBJECT
 
@@ -26,3 +27,4 @@ private:
     bool isDragging;
     QPoint lastMousePos;
 };
+}  // namespace graphics

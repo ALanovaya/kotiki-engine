@@ -1,6 +1,6 @@
 #include "kotiki-engine/graphics/view.hpp"
 
-ResizableGraphicsView::ResizableGraphicsView(QGraphicsScene* scene, QWidget* parent)
+graphics::ResizableGraphicsView::ResizableGraphicsView(QGraphicsScene* scene, QWidget* parent)
     : QGraphicsView(scene, parent), isDragging(false) {
     setRenderHint(QPainter::Antialiasing);
     setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
@@ -10,7 +10,7 @@ ResizableGraphicsView::ResizableGraphicsView(QGraphicsScene* scene, QWidget* par
     setDragMode(QGraphicsView::NoDrag);
 }
 
-void ResizableGraphicsView::resizeEvent(QResizeEvent* event) {
+void graphics::ResizableGraphicsView::resizeEvent(QResizeEvent* event) {
     QGraphicsView::resizeEvent(event);
 
     QPointF center = mapToScene(viewport()->rect().center());
@@ -21,7 +21,7 @@ void ResizableGraphicsView::resizeEvent(QResizeEvent* event) {
     translate(delta.x(), delta.y());
 }
 
-void ResizableGraphicsView::wheelEvent(QWheelEvent* event) {
+void graphics::ResizableGraphicsView::wheelEvent(QWheelEvent* event) {
     double const scaleFactor = (event->angleDelta().y() > 0) ? 1.15 : 1.0 / 1.15;
     QPoint globalPos = event->globalPosition().toPoint();
     QPoint widgetPos = mapFromGlobal(globalPos);
@@ -36,7 +36,7 @@ void ResizableGraphicsView::wheelEvent(QWheelEvent* event) {
     event->accept();
 }
 
-void ResizableGraphicsView::mousePressEvent(QMouseEvent* event) {
+void graphics::ResizableGraphicsView::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         isDragging = true;
         lastMousePos = event->pos();
@@ -47,7 +47,7 @@ void ResizableGraphicsView::mousePressEvent(QMouseEvent* event) {
     }
 }
 
-void ResizableGraphicsView::mouseMoveEvent(QMouseEvent* event) {
+void graphics::ResizableGraphicsView::mouseMoveEvent(QMouseEvent* event) {
     if (isDragging) {
         QPointF delta = mapToScene(lastMousePos) - mapToScene(event->pos());
         QRectF newSceneRect = sceneRect();
@@ -61,7 +61,7 @@ void ResizableGraphicsView::mouseMoveEvent(QMouseEvent* event) {
     }
 }
 
-void ResizableGraphicsView::mouseReleaseEvent(QMouseEvent* event) {
+void graphics::ResizableGraphicsView::mouseReleaseEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton && isDragging) {
         isDragging = false;
         setCursor(Qt::ArrowCursor);
