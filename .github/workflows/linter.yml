@@ -25,6 +25,8 @@ jobs:
         with:
           build_dir: build
           apt_packages: "libfftw3-dev,libnetcdf-c++4-dev,libopenmpi-dev,petsc-dev,slepc-dev,liblapack-dev,libparpack2-dev,libsundials-dev,uuid-dev"
+          cmake_command: cmake -B build -S . -DCMAKE_EXPORT_COMPILE_COMMANDS=on
+          config_file: ${{ github.workspace }}/.clang-tidy
 
       - uses: ZedThree/clang-tidy-review/upload@v0.14.0
         id: upload-review
