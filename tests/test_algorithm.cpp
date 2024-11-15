@@ -1,9 +1,9 @@
-#include <kotiki-engine/core/algorithms/algorithms.hpp>
-#include <kotiki-engine/core/metrics/metrics.hpp>
-#include <kotiki-engine/entities/entity.hpp>
-#include <kotiki-engine/entities/states.hpp>
-
 #include <gtest/gtest.h>
+
+#include "kotiki-engine/core/algorithms/algorithms.hpp"
+#include "kotiki-engine/core/metrics/metrics.hpp"
+#include "kotiki-engine/entities/entity.hpp"
+#include "kotiki-engine/entities/states.hpp"
 
 namespace {
 TEST(TestNaive, FightingOnR0Test) {

@@ -1,4 +1,4 @@
-#include <kotiki-engine/core/metrics/euclidean.hpp>
+#include "kotiki-engine/core/metrics/euclidean.hpp"
 
 namespace algo {
 double EuclideanMetric::Calculate(entity::Entity first, entity::Entity second) {

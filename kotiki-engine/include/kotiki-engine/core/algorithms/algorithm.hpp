@@ -1,10 +1,11 @@
 #pragma once
 
-#include <kotiki-engine/core/metrics/metric.hpp>
-#include <kotiki-engine/entities/entity.hpp>
-#include <kotiki-engine/entities/states.hpp>
 #include <memory>
 #include <vector>
+
+#include "kotiki-engine/core/metrics/metric.hpp"
+#include "kotiki-engine/entities/entity.hpp"
+#include "kotiki-engine/entities/states.hpp"
 
 namespace algo {
 class Algorithm {
@@ -16,6 +17,7 @@ protected:
 public:
     Algorithm(double R0, double R1, Metric* metric) : R0_(R0), R1_(R1), metric_(metric) {}
 
-    virtual std::vector<entity::EntityState> GetStates(std::vector<entity::Entity> const& entities) = 0;
+    virtual std::vector<entity::EntityState> GetStates(
+            std::vector<entity::Entity> const& entities) = 0;
 };
 }  // namespace algo

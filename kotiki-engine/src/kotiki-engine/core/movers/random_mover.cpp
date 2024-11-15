@@ -1,6 +1,8 @@
-#include <kotiki-engine/core/movers/random_mover.hpp>
-#include <kotiki-engine/utils/random.hpp>
+#include "kotiki-engine/core/movers/random_mover.hpp"
+
 #include <stdexcept>
+
+#include "kotiki-engine/utils/random.hpp"
 
 namespace mover {
 RandomMover::RandomMover(double min_step, double max_step) {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <kotiki-engine/core/algorithms/algorithm.hpp>
+#include "kotiki-engine/core/algorithms/algorithm.hpp"
 
 namespace algo {
 class NaiveAlgorithm : public Algorithm {

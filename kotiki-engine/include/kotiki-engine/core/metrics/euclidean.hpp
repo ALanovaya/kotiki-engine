@@ -1,7 +1,8 @@
 #pragma once
 
 #include <cmath>
-#include <kotiki-engine/core/metrics/metric.hpp>
+
+#include "kotiki-engine/core/metrics/metric.hpp"
 
 namespace algo {
 class EuclideanMetric : public Metric {
