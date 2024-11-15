@@ -10,6 +10,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Install Boost
+      run: sudo apt-get update && sudo apt-get install -y libboost-all-dev
+
     - name: Set up CMake
       uses: jwlawson/actions-setup-cmake@v1
       with:
@@ -21,12 +24,11 @@ jobs:
         sudo apt-get install -y qt6-base-dev qt6-tools-dev libglu1-mesa-dev freeglut3-dev
 
     - name: Create build directory
-      run: cmake -B build -S .
+      run: cmake -B ${{ github.workspace }}/build -S .
 
     - name: Build
-      run: cmake --build build
+      run: cmake --build ${{ github.workspace }}/build --config Release
 
-    # - name: Run tests
-    #   run: |
-    #     cd build
-    #     ctest
+    - name: Run tests
+      run: ctest -C Release
+      working-directory: ${{ github.workspace }}/build/tests

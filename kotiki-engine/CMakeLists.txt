@@ -13,6 +13,11 @@ set(SRC_FILES
     ${TARGET_SOURCE_DIR}/kotiki-engine/main.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/graphics/fps_counter.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/graphics/view.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/trajectory/trajectory.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/algorithms/naive.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/metrics/euclidean.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/movers/random_mover.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/utils/random.cpp
 )
 
 set(INCLUDE_FILES
@@ -40,3 +45,5 @@ target_include_directories(
         PUBLIC
         $<BUILD_INTERFACE:${TARGET_INCLUDE_DIR}>
 )
+
+target_link_libraries(${TARGET_NAME} PRIVATE matheval::x3)
