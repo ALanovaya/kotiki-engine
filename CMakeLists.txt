@@ -7,7 +7,6 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 option(BUILD_TESTS "Build C++ unit-tests" ON)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(kotiki-engine)
 add_subdirectory(external)
