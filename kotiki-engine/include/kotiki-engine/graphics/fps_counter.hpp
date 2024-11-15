@@ -19,6 +19,6 @@ signals:
 
 private:
     QTimer timer_;
-    int frameCount_;
+    int frame_count_;
 };
 }  // namespace graphics::widgets
