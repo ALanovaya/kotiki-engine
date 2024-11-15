@@ -10,6 +10,10 @@ set(TARGET_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(SRC_FILES
     ${TARGET_SOURCE_DIR}/kotiki-engine/main.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/trajectory/trajectory.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/algorithms/naive.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/metrics/euclidean.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/movers/random_mover.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/utils/random.cpp
 )
 
 #####################################
