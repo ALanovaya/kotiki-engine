@@ -9,6 +9,7 @@ set(TARGET_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(SRC_FILES
     ${TARGET_SOURCE_DIR}/kotiki-engine/main.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/trajectory/trajectory.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/algorithms/naive.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/metrics/euclidean.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/movers/random_mover.cpp
@@ -27,3 +28,5 @@ target_include_directories(
         PUBLIC
         $<BUILD_INTERFACE:${TARGET_INCLUDE_DIR}>
 )
+
+target_link_libraries(${TARGET_NAME} PRIVATE matheval::x3)
