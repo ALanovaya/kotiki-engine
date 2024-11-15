@@ -24,7 +24,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event) override;
 
 private:
-    bool isDragging;
-    QPoint lastMousePos;
+    bool isDragging_;
+    QPoint lastMousePos_;
 };
 }  // namespace graphics
