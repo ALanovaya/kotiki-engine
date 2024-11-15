@@ -18,21 +18,21 @@
 class MovingPixmap : public QGraphicsPixmapItem {
 public:
     MovingPixmap(QPixmap const& pixmap, qreal orbitRadius, qreal speed)
-        : QGraphicsPixmapItem(pixmap), m_orbitRadius_(orbitRadius), m_speed_(speed), m_angle_(0) {
+        : QGraphicsPixmapItem(pixmap), orbit_radius_(orbitRadius), speed_(speed), angle_(0) {
         setTransformOriginPoint(pixmap.width() / 2.0, pixmap.height() / 2.0);
     }
 
     void advance(int phase) {
         if (!phase) return;
-        m_angle_ += m_speed_;
-        setPos(m_orbitRadius_ * cos(m_angle_) - pixmap().width() / 2.0,
-               m_orbitRadius_ * sin(m_angle_) - pixmap().height() / 2.0);
+        angle_ += speed_;
+        setPos(orbit_radius_ * cos(angle_) - pixmap().width() / 2.0,
+               orbit_radius_ * sin(angle_) - pixmap().height() / 2.0);
     }
 
 private:
-    qreal m_orbitRadius_;
-    qreal m_speed_;
-    qreal m_angle_;
+    qreal orbit_radius_;
+    qreal speed_;
+    qreal angle_;
 };
 
 int main(int argc, char* argv[]) {

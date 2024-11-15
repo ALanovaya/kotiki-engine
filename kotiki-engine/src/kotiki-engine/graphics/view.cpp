@@ -2,7 +2,7 @@
 
 namespace graphics {
 ResizableGraphicsView::ResizableGraphicsView(QGraphicsScene* scene, QWidget* parent)
-    : QGraphicsView(scene, parent), isDragging_(false) {
+    : QGraphicsView(scene, parent), is_dragging_(false) {
     setRenderHint(QPainter::Antialiasing);
     setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
     setResizeAnchor(QGraphicsView::AnchorUnderMouse);
@@ -39,8 +39,8 @@ void ResizableGraphicsView::wheelEvent(QWheelEvent* event) {
 
 void ResizableGraphicsView::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
-        isDragging_ = true;
-        lastMousePos_ = event->pos();
+        is_dragging_ = true;
+        last_mouse_pos_ = event->pos();
         setCursor(Qt::ClosedHandCursor);
         event->accept();
     } else {
@@ -49,12 +49,12 @@ void ResizableGraphicsView::mousePressEvent(QMouseEvent* event) {
 }
 
 void ResizableGraphicsView::mouseMoveEvent(QMouseEvent* event) {
-    if (isDragging_) {
-        QPointF delta = mapToScene(lastMousePos_) - mapToScene(event->pos());
+    if (is_dragging_) {
+        QPointF delta = mapToScene(last_mouse_pos_) - mapToScene(event->pos());
         QRectF new_scene_rect = sceneRect();
         new_scene_rect.translate(delta.x(), delta.y());
         setSceneRect(new_scene_rect);
-        lastMousePos_ = event->pos();
+        last_mouse_pos_ = event->pos();
         event->accept();
         viewport()->update();
     } else {
@@ -63,8 +63,8 @@ void ResizableGraphicsView::mouseMoveEvent(QMouseEvent* event) {
 }
 
 void ResizableGraphicsView::mouseReleaseEvent(QMouseEvent* event) {
-    if (event->button() == Qt::LeftButton && isDragging_) {
-        isDragging_ = false;
+    if (event->button() == Qt::LeftButton && is_dragging_) {
+        is_dragging_ = false;
         setCursor(Qt::ArrowCursor);
         event->accept();
     } else {
