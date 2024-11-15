@@ -53,4 +53,14 @@ TEST(TestNaive, AllCalmTest) {
     ASSERT_EQ(states[1], entity::EntityState::Calm);
     ASSERT_EQ(states[2], entity::EntityState::Calm);
 }
+
+TEST(TestNaive, SingleEntityTest) {
+    auto R0 = 1;
+    auto R1 = 10;
+    auto algo = algo::NaiveAlgorithm(R0, R1, new algo::EuclideanMetric);
+    std::vector<entity::Entity> kotiki = {{69.0, 420.0}};
+    auto states = algo.GetStates(kotiki);
+    ASSERT_EQ(states.size(), 1);
+    ASSERT_EQ(states[0], entity::EntityState::Calm);
+}
 }  // namespace
