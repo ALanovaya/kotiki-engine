@@ -75,11 +75,50 @@ TEST(TestTrajectory, SineWaveTrajectoryTest) {
     EXPECT_NEAR(pos_at_pi.second, 2, 1e-6);
 }
 
-TEST(TestTrajectory, InvalidExpressionTest) {
-    trajectory::Trajectory invalid_trajectory("x + y", "2 * t", "z");
+TEST(TestTrajectory, InvalidVariableInX) {
+    EXPECT_THROW(
+            trajectory::Trajectory traj("x + t", "2 * t", "t"),
+    std::invalid_argument
+    );
+}
+TEST(TestTrajectory, InvalidVariableInT) {
+    EXPECT_THROW(
+            trajectory::Trajectory traj("x + t", "2 * t", "x"),
+    std::invalid_argument
+    );
+}
 
-    std::pair<double, double> start_coordinates = {0.0, 0.0};
-    EXPECT_THROW(invalid_trajectory.GetPosition(start_coordinates, 1), std::invalid_argument);
+TEST(TestTrajectory, InvalidVariableInY) {
+    EXPECT_THROW(
+            trajectory::Trajectory traj("t", "y + 2 * t", "t"),
+    std::invalid_argument
+    );
+}
+
+TEST(TestTrajectory, InvalidVariablesInBothExpressions) {
+    EXPECT_THROW(
+            trajectory::Trajectory traj("x + t", "y + t", "t"),
+    std::invalid_argument
+    );
+}
+
+TEST(TestTrajectory, InvalidVariableDifferentFromTimeVariable) {
+    EXPECT_THROW(
+            trajectory::Trajectory traj("a + b", "b * c", "t"),
+    std::invalid_argument
+    );
+}
+
+TEST(TestTrajectory, ValidTrajectoryWithOnlyVariableT) {
+    EXPECT_NO_THROW(
+            trajectory::Trajectory traj("t", "2 * t", "t")
+    );
+}
+
+TEST(TestTrajectory, ValidTrajectoryWithOnlyVariableX) {
+    EXPECT_NO_THROW(
+            trajectory::Trajectory traj("sin(x) * cos(x)", "0", "x")
+    );
 }
 
 }  // namespace
