@@ -16,6 +16,6 @@ protected:
 public:
     Algorithm(double R0, double R1, Metric* metric) : R0_(R0), R1_(R1), metric_(metric) {}
 
-    virtual std::vector<entity::EntityState> GetStates(std::vector<entity::Entity>& entities) = 0;
+    virtual std::vector<entity::EntityState> GetStates(std::vector<entity::Entity> const& entities) = 0;
 };
 }  // namespace algo

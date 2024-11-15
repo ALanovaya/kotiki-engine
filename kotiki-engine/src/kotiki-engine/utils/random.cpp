@@ -1,5 +1,7 @@
 #include <kotiki-engine/utils/random.hpp>
 
+#include <random>
+
 double sample_uniform() {
     static std::random_device rd;
     static std::mt19937 eng(rd());
