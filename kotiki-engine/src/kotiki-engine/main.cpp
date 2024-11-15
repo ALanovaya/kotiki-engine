@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
     main_window.setWindowTitle("Two Cats Orbiting");
     main_window.resize(800, 600);
 
-    QPixmap pixmap("asserts/textures/grass.png");
+    QPixmap pixmap("assets/textures/grass.png");
 
     auto scene = std::make_unique<QGraphicsScene>(&main_window);
     scene->setSceneRect(-300, -300, 600, 600);
@@ -52,8 +52,8 @@ int main(int argc, char* argv[]) {
     main_window.setCentralWidget(view.get());
 
     // Load images
-    QPixmap image1("asserts/textures/pushin.png");
-    QPixmap image2("asserts/textures/pushin.png");
+    QPixmap image1("assets/textures/pushin.png");
+    QPixmap image2("assets/textures/pushin.png");
 
     // Create two images
     auto image_item1 = std::make_unique<MovingPixmap>(image1, 100, 0.05);
