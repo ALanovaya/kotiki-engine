@@ -14,6 +14,7 @@ set(PROJECT_SRC_FILES
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/metrics/euclidean.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/movers/random_mover.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/utils/random.cpp
+    ${KOTIKI_SOURCE_DIR}/kotiki-engine/entities/entities_collection.cpp
 )
 
 set(TESTS_SRC_FILES

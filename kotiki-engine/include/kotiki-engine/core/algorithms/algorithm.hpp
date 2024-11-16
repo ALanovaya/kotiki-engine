@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "kotiki-engine/core/metrics/metric.hpp"
-#include "kotiki-engine/entities/entity.hpp"
+#include "kotiki-engine/entities/entities_collection.hpp"
 #include "kotiki-engine/entities/states.hpp"
 
 namespace algo {
@@ -18,6 +18,6 @@ public:
     Algorithm(double R0, double R1, Metric* metric) : R0_(R0), R1_(R1), metric_(metric) {}
 
     virtual std::vector<entity::EntityState> GetStates(
-            std::vector<entity::Entity> const& entities) = 0;
+            entity::EntitiesCollection const& entities) = 0;
 };
 }  // namespace algo
