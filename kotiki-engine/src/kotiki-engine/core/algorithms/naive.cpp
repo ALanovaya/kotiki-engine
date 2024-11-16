@@ -16,7 +16,8 @@ std::vector<entity::EntityState> NaiveAlgorithm::GetStates(
             if (dist <= R0_) {
                 states[i] = entity::EntityState::Fighting;
             } else if (dist <= R1_) {
-                if (states[i] != entity::EntityState::Fighting && sample_uniform() <= 1.0 / dist) {
+                if (states[i] != entity::EntityState::Fighting &&
+                    sample_uniform_real() <= 1.0 / dist) {
                     states[i] = entity::EntityState::Angry;
                 }
             }

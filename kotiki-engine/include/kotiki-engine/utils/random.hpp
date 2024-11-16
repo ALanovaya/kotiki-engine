@@ -1,3 +1,3 @@
 #pragma once
 
-double sample_uniform();
+double sample_uniform_real();
