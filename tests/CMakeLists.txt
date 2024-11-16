@@ -22,6 +22,7 @@ set(TESTS_SRC_FILES
     test-test.cpp
     test-trajectory.cpp
     test_algorithm.cpp
+    test_entities.cpp
 )
 
 #####################################
