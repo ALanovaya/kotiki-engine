@@ -44,5 +44,14 @@ target_include_directories(
 target_link_libraries(unit-tests PRIVATE GTest::gtest_main)
 target_link_libraries(unit-tests PRIVATE matheval::x3)
 
+#####################################
+# Run unit tests
+#####################################
+
+add_custom_target(run-unit-tests
+    COMMAND unit-tests
+    DEPENDS unit-tests
+)
+
 include(GoogleTest)
 gtest_discover_tests(unit-tests)
