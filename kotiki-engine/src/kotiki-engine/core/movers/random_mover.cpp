@@ -1,7 +1,5 @@
 #include "kotiki-engine/core/movers/random_mover.hpp"
 
-#include <stdexcept>
-
 #include "kotiki-engine/utils/random.hpp"
 
 namespace mover {
@@ -23,6 +21,8 @@ void RandomMover::MoveInternal(entity::EntitiesCollection& entities) {
 
         entity.x += gen_.Generate() * x_sign;
         entity.y += gen_.Generate() * y_sign;
+
+        FixCoordinates(entity, entities.GetFieldParams());
     }
 }
 }  // namespace mover

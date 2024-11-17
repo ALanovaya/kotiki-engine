@@ -21,5 +21,13 @@ public:
 
     virtual std::vector<entity::EntityState> GetStates(
             entity::EntitiesCollection const& entities) = 0;
+
+    virtual void SetR0(coord_t R0) {
+        R0_ = R0;
+    }
+
+    virtual void SetR1(coord_t R1) {
+        R1_ = R1;
+    }
 };
 }  // namespace algo

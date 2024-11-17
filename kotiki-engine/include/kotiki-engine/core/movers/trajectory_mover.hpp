@@ -6,10 +6,11 @@
 #include "kotiki-engine/core/trajectory/trajectory.hpp"
 
 namespace mover {
+using namespace trajectory;
 
 class TrajectoryMover : public Mover {
 private:
-    trajectory::Trajectory traj_;
+    std::unique_ptr<Trajectory> traj_;
     double current_time_;
     double timedelta_;
 
@@ -18,6 +19,18 @@ private:
 public:
     TrajectoryMover(std::string const& x_expression, std::string const& y_expression,
                     double timedelta, std::string const& time_var = "t")
-        : traj_(x_expression, y_expression, time_var), current_time_(0), timedelta_(timedelta) {}
+        : traj_(std::make_unique<Trajectory>(x_expression, y_expression, time_var)),
+          current_time_(0),
+          timedelta_(timedelta) {}
+
+    void SetTimedelta(double timedelta) {
+        timedelta_ = timedelta;
+    }
+
+    void SetTrajectory(std::string const& x_expression, std::string const& y_expression,
+                       std::string const& time_var = "t") {
+        traj_ = std::make_unique<Trajectory>(x_expression, y_expression, time_var);
+        current_time_ = 0.0;
+    }
 };
 }  // namespace mover

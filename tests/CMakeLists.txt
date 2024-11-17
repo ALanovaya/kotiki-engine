@@ -12,6 +12,7 @@ set(PROJECT_SRC_FILES
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/trajectory/trajectory.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/algorithms/naive.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/metrics/euclidean.cpp
+    ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/movers/mover.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/movers/random_mover.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/utils/random.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/entities/entities_collection.cpp

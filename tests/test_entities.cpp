@@ -4,13 +4,15 @@
 
 namespace {
 int number_of_entities = 4;
+FieldParams field_params = {-1000, -1000, 2000, 2000};
 
 TEST(EntitiesCollection, AllMoving) {
     std::vector<entity::Entity> entities(number_of_entities, {1.0, 1.0});
-    entity::EntitiesCollection entities_collection_1(entities);
-    entity::EntitiesCollection entities_collection_2(entities, 4);
-    entity::EntitiesCollection entities_collection_3(entities, number_of_entities * 10);
-    entity::EntitiesCollection entities_collection_4(entities, 1);
+    entity::EntitiesCollection entities_collection_1(entities, field_params);
+    entity::EntitiesCollection entities_collection_2(entities, 4, field_params);
+    entity::EntitiesCollection entities_collection_3(entities, number_of_entities * 10,
+                                                     field_params);
+    entity::EntitiesCollection entities_collection_4(entities, 1, field_params);
     entities_collection_4.SetMaxMoving(number_of_entities);
 
     EXPECT_EQ(entities_collection_1.GetMaxMoving(), number_of_entities);
@@ -21,8 +23,8 @@ TEST(EntitiesCollection, AllMoving) {
 
 TEST(EntitiesCollection, NoMoving) {
     std::vector<entity::Entity> entities(number_of_entities, {1.0, 1.0});
-    entity::EntitiesCollection entities_collection_1(entities, 0);
-    entity::EntitiesCollection entities_collection_2(entities, 4);
+    entity::EntitiesCollection entities_collection_1(entities, 0, field_params);
+    entity::EntitiesCollection entities_collection_2(entities, 4, field_params);
     entities_collection_2.SetMaxMoving(0);
 
     EXPECT_EQ(entities_collection_1.GetMaxMoving(), 0);
@@ -34,7 +36,7 @@ TEST(EntitiesCollection, NoMoving) {
 
 TEST(EntitiesCollection, StartCoordinates) {
     std::vector<entity::Entity> entities(number_of_entities, {1.0, 1.0});
-    entity::EntitiesCollection entities_collection(entities, number_of_entities);
+    entity::EntitiesCollection entities_collection(entities, number_of_entities, field_params);
 
     EXPECT_EQ(entities_collection.GetStartCoordinates().size(), entities.size());
     for (int i = 0; i < entities.size(); ++i) {

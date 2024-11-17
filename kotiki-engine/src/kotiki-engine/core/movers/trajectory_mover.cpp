@@ -6,9 +6,11 @@ void TrajectoryMover::MoveInternal(entity::EntitiesCollection& entities) {
     for (auto index : entities.GetIndices()) {
         auto& entity = entities.GetEntites()[index];
         auto& start_coordinates = entities.GetStartCoordinates()[index];
-        auto [x, y] = traj_.GetPosition(start_coordinates, current_time_);
+        auto [x, y] = traj_->GetPosition(start_coordinates, current_time_);
         entity.x = x;
         entity.y = y;
+
+        FixCoordinates(entity, entities.GetFieldParams());
     }
 }
 }  // namespace mover

@@ -18,6 +18,7 @@ public:
     virtual T Generate() = 0;
     virtual void SetMin(T min) = 0;
     virtual void SetMax(T min) = 0;
+    virtual void SetMinMax(T min, T max) = 0;
 };
 
 template <typename T>
@@ -41,6 +42,12 @@ public:
         this->max_ = max;
         this->distr_ = std::uniform_real_distribution<T>(this->min_, this->max_);
     };
+
+    void SetMinMax(T min, T max) override final {
+        this->min_ = min;
+        this->max_ = max;
+        this->distr_ = std::uniform_real_distribution<T>(this->min_, this->max_);
+    };
 };
 
 template <typename T>
@@ -61,6 +68,12 @@ public:
     };
 
     void SetMax(T max) override final {
+        this->max_ = max;
+        this->distr_ = std::uniform_int_distribution<T>(this->min_, this->max_);
+    };
+
+    void SetMinMax(T min, T max) override final {
+        this->min_ = min;
         this->max_ = max;
         this->distr_ = std::uniform_int_distribution<T>(this->min_, this->max_);
     };
