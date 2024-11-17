@@ -38,8 +38,8 @@ TEST(EntitiesCollection, StartCoordinates) {
 
     EXPECT_EQ(entities_collection.GetStartCoordinates().size(), entities.size());
     for (int i = 0; i < entities.size(); ++i) {
-        EXPECT_EQ(entities_collection.GetStartCoordinates()[i].x0, entities[i].x);
-        EXPECT_EQ(entities_collection.GetStartCoordinates()[i].y0, entities[i].y);
+        EXPECT_EQ(entities_collection.GetStartCoordinates()[i].first, entities[i].x);
+        EXPECT_EQ(entities_collection.GetStartCoordinates()[i].second, entities[i].y);
     }
 }
 

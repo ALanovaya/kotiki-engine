@@ -9,15 +9,9 @@
 
 namespace entity {
 class EntitiesCollection {
-public:
-    struct StartCoordinates {
-        coord_t x0;
-        coord_t y0;
-    };
-
 private:
     std::vector<Entity> entities_;
-    std::vector<StartCoordinates> start_coordinates_;
+    std::vector<std::pair<coord_t, coord_t>> start_coordinates_;
     std::size_t max_number_of_moving_entites_;
 
     std::set<std::size_t> moving_entities_indices_;
@@ -39,7 +33,7 @@ public:
         return moving_entities_indices_;
     }
 
-    std::vector<StartCoordinates>& GetStartCoordinates() {
+    std::vector<std::pair<coord_t, coord_t>>& GetStartCoordinates() {
         return start_coordinates_;
     }
 
@@ -51,7 +45,7 @@ public:
         return moving_entities_indices_;
     }
 
-    std::vector<StartCoordinates> const& GetStartCoordinates() const {
+    std::vector<std::pair<coord_t, coord_t>> const& GetStartCoordinates() const {
         return start_coordinates_;
     }
 

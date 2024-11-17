@@ -9,9 +9,8 @@ EntitiesCollection::EntitiesCollection(std::vector<Entity> const& entities)
       start_coordinates_(entities.size()),
       max_number_of_moving_entites_(entities.size()),
       gen_(0, entities.size() - 1) {
-    std::transform(
-            entities.begin(), entities.end(), start_coordinates_.begin(),
-            [](entity::Entity const& entity) { return StartCoordinates{entity.x, entity.y}; });
+    std::transform(entities.begin(), entities.end(), start_coordinates_.begin(),
+                   [](entity::Entity const& entity) { return std::pair{entity.x, entity.y}; });
     GenerateNewIndices();
 }
 
@@ -21,9 +20,8 @@ EntitiesCollection::EntitiesCollection(std::vector<Entity> const& entities,
       start_coordinates_(entities.size()),
       max_number_of_moving_entites_(std::min(entities.size(), max_number_of_moving_entites)),
       gen_(0, entities.size() - 1) {
-    std::transform(
-            entities.begin(), entities.end(), start_coordinates_.begin(),
-            [](entity::Entity const& entity) { return StartCoordinates{entity.x, entity.y}; });
+    std::transform(entities.begin(), entities.end(), start_coordinates_.begin(),
+                   [](entity::Entity const& entity) { return std::pair{entity.x, entity.y}; });
     GenerateNewIndices();
 }
 
