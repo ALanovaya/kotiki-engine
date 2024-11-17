@@ -1,9 +1,11 @@
 #pragma once
 
+#include "kotiki-engine/utils/types.h"
+
 namespace entity {
 struct Entity {
-    double x;
-    double y;
+    coord_t x;
+    coord_t y;
 };
 
 }  // namespace entity

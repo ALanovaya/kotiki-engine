@@ -5,6 +5,6 @@
 namespace algo {
 class Metric {
 public:
-    virtual double Calculate(entity::Entity first, entity::Entity second) = 0;
+    virtual coord_t Calculate(entity::Entity first, entity::Entity second) = 0;
 };
 }  // namespace algo

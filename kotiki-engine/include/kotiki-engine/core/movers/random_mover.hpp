@@ -6,14 +6,14 @@
 namespace mover {
 class RandomMover : public Mover {
 private:
-    double min_step_;
-    double max_step_;
+    coord_t min_step_;
+    coord_t max_step_;
 
-    util::RandomRealGenerator<double> gen_;
+    util::RandomRealGenerator<coord_t> gen_;
 
     void MoveInternal(entity::EntitiesCollection& entities);
 
 public:
-    RandomMover(double min_step = 0.0, double max_step = 1.0);
+    RandomMover(coord_t min_step = 0.0, coord_t max_step = 1.0);
 };
 }  // namespace mover

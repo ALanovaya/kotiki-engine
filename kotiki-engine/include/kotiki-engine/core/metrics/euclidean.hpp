@@ -6,6 +6,6 @@
 
 namespace algo {
 class EuclideanMetric : public Metric {
-    double Calculate(entity::Entity first, entity::Entity second);
+    coord_t Calculate(entity::Entity first, entity::Entity second);
 };
 }  // namespace algo

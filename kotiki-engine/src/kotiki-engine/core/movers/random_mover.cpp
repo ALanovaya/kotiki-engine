@@ -5,7 +5,7 @@
 #include "kotiki-engine/utils/random.hpp"
 
 namespace mover {
-RandomMover::RandomMover(double min_step, double max_step) : gen_(min_step, max_step) {
+RandomMover::RandomMover(coord_t min_step, coord_t max_step) : gen_(min_step, max_step) {
     if (max_step < min_step) {
         throw std::invalid_argument(
                 "In Random Mover minimal step must be less or equal to maximal step");
