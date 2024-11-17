@@ -11,7 +11,12 @@ void FPSCounter::FrameRendered() {
 }
 
 void FPSCounter::UpdateFps() {
+    current_fps_ = frame_count_;
     emit FpsUpdated(frame_count_);
     frame_count_ = 0;
+}
+
+int FPSCounter::GetCurrentFps() const {
+    return current_fps_;
 }
 }  // namespace graphics::widgets

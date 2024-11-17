@@ -9,7 +9,8 @@ class FPSCounter : public QObject {
 public:
     explicit FPSCounter(QObject* parent = nullptr);
     void FrameRendered();
-    virtual ~FPSCounter(){};
+
+    int GetCurrentFps() const;
 
 private slots:
     void UpdateFps();
@@ -20,5 +21,6 @@ signals:
 private:
     QTimer timer_;
     int frame_count_;
+    int current_fps_;
 };
 }  // namespace graphics::widgets
