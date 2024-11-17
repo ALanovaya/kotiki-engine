@@ -1,11 +1,9 @@
 #include "kotiki-engine/utils/random.hpp"
 
-#include <random>
+namespace util {
+double generate_uniform_real() {
+    static RandomRealGenerator<double> gen(0.0, 1.0);
 
-double sample_uniform() {
-    static std::random_device rd;
-    static std::mt19937 eng(rd());
-    static std::uniform_real_distribution distr(0.0, 1.0);
-
-    return distr(eng);
+    return gen.Generate();
 }
+}  // namespace util

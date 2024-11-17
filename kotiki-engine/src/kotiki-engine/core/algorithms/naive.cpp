@@ -4,19 +4,21 @@
 
 namespace algo {
 std::vector<entity::EntityState> NaiveAlgorithm::GetStates(
-        std::vector<entity::Entity> const& entities) {
-    std::vector<entity::EntityState> states(entities.size(), entity::EntityState::Calm);
+        entity::EntitiesCollection const& entities) {
+    auto const& entities_vector = entities.GetEntites();
+    std::vector<entity::EntityState> states(entities_vector.size(), entity::EntityState::Calm);
 
-    for (int i = 0; i < entities.size(); ++i) {
-        for (int j = 0; j < entities.size(); ++j) {
+    for (int i = 0; i < entities_vector.size(); ++i) {
+        for (int j = 0; j < entities_vector.size(); ++j) {
             if (i == j) {
                 continue;
             }
-            auto dist = metric_->Calculate(entities[i], entities[j]);
+            auto dist = metric_->Calculate(entities_vector[i], entities_vector[j]);
             if (dist <= R0_) {
                 states[i] = entity::EntityState::Fighting;
             } else if (dist <= R1_) {
-                if (states[i] != entity::EntityState::Fighting && sample_uniform() <= 1.0 / dist) {
+                if (states[i] != entity::EntityState::Fighting &&
+                    util::generate_uniform_real() <= 1.0 / dist) {
                     states[i] = entity::EntityState::Angry;
                 }
             }
