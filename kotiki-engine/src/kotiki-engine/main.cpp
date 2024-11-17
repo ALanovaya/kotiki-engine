@@ -7,8 +7,8 @@
 #include <QPixmap>
 #include <QStatusBar>
 #include <QTimer>
+#include <kotiki-engine/entities/field.h>
 #include <memory>
-#include <random>
 #include <vector>
 
 #include "kotiki-engine/core/algorithms/naive.hpp"
@@ -58,37 +58,35 @@ int main(int argc, char* argv[]) {
     main_window.setWindowTitle("Random Moving Cats");
     main_window.resize(1440, 1024);
 
-    QPixmap grass_texture("assets/textures/grass.png");
-
     auto scene = std::make_unique<QGraphicsScene>(&main_window);
-    scene->setSceneRect(-1000, -1000, 2000, 2000);
+
+    QPixmap grass_texture("assets/textures/grass.png");
     scene->setBackgroundBrush(QBrush(grass_texture));
 
     auto view = std::make_unique<graphics::ResizableGraphicsView>(scene.get());
     main_window.setCentralWidget(view.get());
 
+    scene->setSceneRect(0, 0, 2000, 2000);
+    FieldParams field_params = {0, 0, 2000, 2000};
+
     QPixmap calm_image("assets/textures/pushin.png");
     QPixmap angry_image("assets/textures/angry_pusheen.png");
     QPixmap fighting_image("assets/textures/draka_pusheen.png");
 
-    const int cats_size = 50;
+    int const cats_size = 50;
 
-    std::vector<entity::Entity> entities(cats_size);
     std::vector<std::unique_ptr<Cats>> cats;
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<double> dis(-1000, 1000);
+    entity::EntitiesCollection entities_collection(cats_size, 20, field_params);
 
     for (int i = 0; i < cats_size; ++i) {
-        entities[i] = {dis(gen), dis(gen)};
-        auto cat = std::make_unique<Cats>(calm_image, entities[i].x, entities[i].y);
+        auto cat = std::make_unique<Cats>(calm_image, entities_collection.GetEntites()[i].x,
+                                          entities_collection.GetEntites()[i].y);
         cats.push_back(std::move(cat));
         scene->addItem(cats.back().get());
     }
 
     mover::RandomMover random_mover(10, 100);
-    algo::NaiveAlgorithm naive_algorithm(200.0, 500.0, new algo::EuclideanMetric);
+    algo::NaiveAlgorithm naive_algorithm(200.0, 500.0, std::make_unique<algo::EuclideanMetric>());
 
     QTimer point_timer;
     QTimer update_timer;
@@ -98,17 +96,18 @@ int main(int argc, char* argv[]) {
     main_window.statusBar()->addPermanentWidget(fps_label.get());
 
     QObject::connect(&update_timer, &QTimer::timeout, [&]() {
-        for (size_t i = 0; i < entities.size(); ++i) {
+        for (size_t i = 0; i < entities_collection.GetNumberOfEntities(); ++i) {
             cats[i]->UpdatePosition();
         }
         fps_counter.FrameRendered();
     });
 
     QObject::connect(&point_timer, &QTimer::timeout, [&]() {
-        random_mover.Move(entities);
-        auto states = naive_algorithm.GetStates(entities);
-        for (size_t i = 0; i < entities.size(); ++i) {
-            cats[i]->MoveTo(entities[i].x, entities[i].y);
+        random_mover.Move(entities_collection);
+        auto states = naive_algorithm.GetStates(entities_collection);
+        for (size_t i = 0; i < entities_collection.GetNumberOfEntities(); ++i) {
+            cats[i]->MoveTo(entities_collection.GetEntites()[i].x,
+                            entities_collection.GetEntites()[i].y);
             switch (states[i]) {
                 case entity::EntityState::Calm:
                     cats[i]->UpdatePixmap(calm_image);

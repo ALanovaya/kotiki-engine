@@ -58,7 +58,7 @@ public:
 
     void FixateStartCoordinates() {
         std::transform(entities_.begin(), entities_.end(), start_coordinates_.begin(),
-                       [](entity::Entity const& entity) { return std::pair{entity.x, entity.y}; });
+                       [](entity::Entity const& entity) { return std::make_pair(entity.x, entity.y); });
     }
 
     std::size_t GetMaxMoving() const {

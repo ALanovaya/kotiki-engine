@@ -1,7 +1,5 @@
 #include "kotiki-engine/entities/entities_collection.hpp"
 
-#include <random>
-
 namespace entity {
 EntitiesCollection::EntitiesCollection(std::size_t number_of_entities, FieldParams field_params)
     : entities_(number_of_entities),
@@ -53,7 +51,7 @@ EntitiesCollection::EntitiesCollection(std::vector<Entity> const& entities,
       indices_gen_(0, entities.size() - 1),
       field_params_(field_params) {
     std::transform(entities.begin(), entities.end(), start_coordinates_.begin(),
-                   [](entity::Entity const& entity) { return std::pair{entity.x, entity.y}; });
+                   [](entity::Entity const& entity) { return std::make_pair(entity.x, entity.y); });
     GenerateNewIndices();
 }
 
@@ -66,7 +64,7 @@ EntitiesCollection::EntitiesCollection(std::vector<Entity> const& entities,
       indices_gen_(0, entities.size() - 1),
       field_params_(field_params) {
     std::transform(entities.begin(), entities.end(), start_coordinates_.begin(),
-                   [](entity::Entity const& entity) { return std::pair{entity.x, entity.y}; });
+                   [](entity::Entity const& entity) { return std::make_pair(entity.x, entity.y); });
     GenerateNewIndices();
 }
 

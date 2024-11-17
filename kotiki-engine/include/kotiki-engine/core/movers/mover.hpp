@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include "kotiki-engine/entities/entities_collection.hpp"
 
 namespace mover {
@@ -13,8 +11,8 @@ protected:
 
 public:
     virtual void Move(entity::EntitiesCollection& entities) {
-        MoveInternal(entities);
         entities.GenerateNewIndices();
+        MoveInternal(entities);
     };
 };
 }  // namespace mover
