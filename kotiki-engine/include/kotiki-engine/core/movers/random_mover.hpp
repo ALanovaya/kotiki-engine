@@ -8,8 +8,9 @@ private:
     double min_step_;
     double max_step_;
 
+    void MoveInternal(entity::EntitiesCollection& entities);
+
 public:
     RandomMover(double min_step = 0, double max_step = 1);
-    void Move(std::vector<entity::Entity> &entities);
 };
 }  // namespace mover

@@ -15,13 +15,14 @@ RandomMover::RandomMover(double min_step, double max_step) {
     max_step_ = max_step;
 }
 
-void RandomMover::Move(std::vector<entity::Entity>& entities) {
-    for (auto& entity : entities) {
+void RandomMover::MoveInternal(entity::EntitiesCollection& entities) {
+    for (auto index : entities.GetIndices()) {
+        auto& entity = entities.GetEntites()[index];
         int x_sign = util::generate_uniform_real() > 0.5 ? 1 : -1;
         int y_sign = util::generate_uniform_real() > 0.5 ? 1 : -1;
 
-        entity.x = (min_step_ + util::generate_uniform_real() * (max_step_ - min_step_)) * x_sign;
-        entity.y = (min_step_ + util::generate_uniform_real() * (max_step_ - min_step_)) * y_sign;
+        entity.x += (min_step_ + util::generate_uniform_real() * (max_step_ - min_step_)) * x_sign;
+        entity.y += (min_step_ + util::generate_uniform_real() * (max_step_ - min_step_)) * y_sign;
     }
 }
 }  // namespace mover
