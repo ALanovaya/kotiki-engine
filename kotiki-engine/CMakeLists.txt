@@ -15,7 +15,8 @@ set(SRC_FILES
     ${TARGET_SOURCE_DIR}/kotiki-engine/graphics/view.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/trajectory/trajectory.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/algorithms/naive.cpp
-    ${TARGET_SOURCE_DIR}/kotiki-engine/core/metrics/euclidean.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/metrics/minkowski.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/metrics/chebyshev.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/movers/mover.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/movers/random_mover.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/movers/trajectory_mover.cpp
