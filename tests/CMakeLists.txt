@@ -11,7 +11,8 @@ set(KOTIKI_SOURCE_DIR ${PROJECT_SOURCE_DIR}/kotiki-engine/src)
 set(PROJECT_SRC_FILES
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/trajectory/trajectory.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/algorithms/naive.cpp
-    ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/metrics/euclidean.cpp
+    ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/metrics/minkowski.cpp
+    ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/metrics/chebyshev.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/movers/mover.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/movers/random_mover.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/utils/random.cpp
@@ -24,6 +25,7 @@ set(TESTS_SRC_FILES
     test-trajectory.cpp
     test_algorithm.cpp
     test_entities.cpp
+    test_metrics.cpp
 )
 
 #####################################
