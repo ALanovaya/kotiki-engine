@@ -13,10 +13,11 @@ class Algorithm {
 protected:
     coord_t R0_;
     coord_t R1_;
-    std::shared_ptr<Metric> metric_;
+    std::unique_ptr<Metric> metric_;
 
 public:
-    Algorithm(coord_t R0, coord_t R1, Metric* metric) : R0_(R0), R1_(R1), metric_(metric) {}
+    Algorithm(coord_t R0, coord_t R1, std::unique_ptr<Metric>&& metric)
+        : R0_(R0), R1_(R1), metric_(std::move(metric)) {}
 
     virtual std::vector<entity::EntityState> GetStates(
             entity::EntitiesCollection const& entities) = 0;

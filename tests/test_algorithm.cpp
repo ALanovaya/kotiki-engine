@@ -9,7 +9,7 @@ namespace {
 TEST(TestNaive, FightingOnR0Test) {
     auto R0 = 1;
     auto R1 = 10;
-    auto algo = algo::NaiveAlgorithm(R0, R1, new algo::EuclideanMetric);
+    auto algo = algo::NaiveAlgorithm(R0, R1, std::make_unique<algo::EuclideanMetric>());
     entity::EntitiesCollection kotiki({{1.0, 1.0}, {1.0, 1.9}, {3.0, 4.0}});
     auto states = algo.GetStates(kotiki);
     ASSERT_EQ(states.size(), 3);
@@ -21,7 +21,7 @@ TEST(TestNaive, FightingOnR0Test) {
 TEST(TestNaive, AllFightingTest) {
     auto R0 = 1;
     auto R1 = 10;
-    auto algo = algo::NaiveAlgorithm(R0, R1, new algo::EuclideanMetric);
+    auto algo = algo::NaiveAlgorithm(R0, R1, std::make_unique<algo::EuclideanMetric>());
     entity::EntitiesCollection kotiki({{1.0, 1.0}, {1.3, 1.3}, {1.5, 1.5}});
     auto states = algo.GetStates(kotiki);
     ASSERT_EQ(states.size(), 3);
@@ -33,7 +33,7 @@ TEST(TestNaive, AllFightingTest) {
 TEST(TestNaive, NoFightingTest) {
     auto R0 = 1;
     auto R1 = 10;
-    auto algo = algo::NaiveAlgorithm(R0, R1, new algo::EuclideanMetric);
+    auto algo = algo::NaiveAlgorithm(R0, R1, std::make_unique<algo::EuclideanMetric>());
     entity::EntitiesCollection kotiki({{1.0, 1.0}, {3.0, 3.0}, {5.0, 5.0}});
     auto states = algo.GetStates(kotiki);
     ASSERT_EQ(states.size(), 3);
@@ -45,7 +45,7 @@ TEST(TestNaive, NoFightingTest) {
 TEST(TestNaive, AllCalmTest) {
     auto R0 = 1;
     auto R1 = 10;
-    auto algo = algo::NaiveAlgorithm(R0, R1, new algo::EuclideanMetric);
+    auto algo = algo::NaiveAlgorithm(R0, R1, std::make_unique<algo::EuclideanMetric>());
     entity::EntitiesCollection kotiki({{10.0, 10.0}, {30.0, 30.0}, {50.0, 50.0}});
     auto states = algo.GetStates(kotiki);
     ASSERT_EQ(states.size(), 3);
@@ -57,7 +57,7 @@ TEST(TestNaive, AllCalmTest) {
 TEST(TestNaive, SingleEntityTest) {
     auto R0 = 1;
     auto R1 = 10;
-    auto algo = algo::NaiveAlgorithm(R0, R1, new algo::EuclideanMetric);
+    auto algo = algo::NaiveAlgorithm(R0, R1, std::make_unique<algo::EuclideanMetric>());
     entity::EntitiesCollection kotiki({{69.0, 420.0}});
     auto states = algo.GetStates(kotiki);
     ASSERT_EQ(states.size(), 1);
