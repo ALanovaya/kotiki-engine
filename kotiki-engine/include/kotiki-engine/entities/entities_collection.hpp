@@ -5,26 +5,29 @@
 #include <vector>
 
 #include "kotiki-engine/entities/entity.hpp"
+#include "kotiki-engine/utils/random.hpp"
 
 namespace entity {
 class EntitiesCollection {
 private:
     std::vector<Entity> entities_;
     std::size_t max_number_of_moving_entites_;
-    std::set<int> moving_entities_indices_;
+    std::set<std::size_t> moving_entities_indices_;
+
+    util::RandomIntGenerator<std::size_t> gen_;
 
 public:
     EntitiesCollection(std::vector<Entity> const& entities);
 
     EntitiesCollection(std::vector<Entity> const& entities,
                        std::size_t max_number_of_moving_entites);
-    void SampleNewIndices();
+    void GenerateNewIndices();
 
     std::vector<Entity>& GetEntites() {
         return entities_;
     }
 
-    std::set<int>& GetIndices() {
+    std::set<std::size_t>& GetIndices() {
         return moving_entities_indices_;
     }
 
@@ -32,7 +35,7 @@ public:
         return entities_;
     }
 
-    std::set<int> const& GetIndices() const {
+    std::set<std::size_t> const& GetIndices() const {
         return moving_entities_indices_;
     }
 
@@ -42,7 +45,7 @@ public:
 
     void SetMaxMoving(std::size_t max_number_of_moving_entites) {
         max_number_of_moving_entites_ = std::min(entities_.size(), max_number_of_moving_entites);
-        SampleNewIndices();
+        GenerateNewIndices();
     }
 };
 }  // namespace entity
