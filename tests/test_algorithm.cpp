@@ -123,4 +123,24 @@ TEST(TestGridLookup, SingleEntityTest) {
     ASSERT_EQ(states.size(), 1);
     ASSERT_EQ(states[0], entity::EntityState::Calm);
 }
+
+TEST(TestGridLookup, BorderEntitesTest) {
+    FieldParams field_params = {0, 0, 2000, 2000};
+    auto R0 = 1;
+    auto R1 = 10;
+    auto algo = algo::GridLookupAlgorithm(R0, R1, std::make_unique<algo::EuclideanMetric>());
+    entity::EntitiesCollection kotiki({{0.0, 0.0}, {2000.0, 2000.0}}, field_params);
+    EXPECT_NO_THROW(algo.GetStates(kotiki));
+}
+
+TEST(TestGridLookup, OutOfBorderEntitesTest) {
+    FieldParams field_params = {0, 0, 1000, 1000};
+    auto R0 = 1;
+    auto R1 = 10;
+    auto algo = algo::GridLookupAlgorithm(R0, R1, std::make_unique<algo::EuclideanMetric>());
+    entity::EntitiesCollection kotiki1({{10.0, 10.0}, {2000.0, 2000.0}}, field_params);
+    entity::EntitiesCollection kotiki2({{-1.0, -1.0}, {500.0, 500.0}}, field_params);
+    EXPECT_THROW(algo.GetStates(kotiki1), std::invalid_argument);
+    EXPECT_THROW(algo.GetStates(kotiki2), std::invalid_argument);
+}
 }  // namespace
