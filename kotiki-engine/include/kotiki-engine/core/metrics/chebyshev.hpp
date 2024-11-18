@@ -1,9 +1,10 @@
 #pragma once
 
+#include "kotiki-engine/core/metrics/metric.hpp"
 #include "kotiki-engine/entities/entity.hpp"
 
 namespace algo {
-class ChebyshevMetric {
+class ChebyshevMetric : public Metric {
 public:
     ChebyshevMetric() = default;
 
