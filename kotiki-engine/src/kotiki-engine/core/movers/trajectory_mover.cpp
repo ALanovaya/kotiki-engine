@@ -9,8 +9,6 @@ void TrajectoryMover::MoveInternal(entity::EntitiesCollection& entities) {
         auto [x, y] = traj_->GetPosition(start_coordinates, current_time_);
         entity.x = x;
         entity.y = y;
-
-        FixCoordinates(entity, entities.GetFieldParams());
     }
 }
 }  // namespace mover
