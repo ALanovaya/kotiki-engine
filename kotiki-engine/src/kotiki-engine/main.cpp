@@ -2,7 +2,7 @@
 #include <QGraphicsView>
 #include <QLabel>
 #include <QMainWindow>
-#include <kotiki-engine/graphics/settings.hpp>
+#include <iostream>
 #include <memory>
 #include <qdockwidget.h>
 #include <vector>
@@ -61,9 +61,10 @@ int main(int argc, char* argv[]) {
     graphics::widgets::FPSCounter fps_counter;
     auto fps_label = std::make_unique<QLabel>(&main_window);
     main_window.statusBar()->addPermanentWidget(fps_label.get());
+    std::set<int> set_of_fixed_entities;
 
     QObject::connect(&update_timer, &QTimer::timeout, [&]() {
-        for (size_t i = 0; i < entities_collection.GetNumberOfEntities(); ++i) {
+        for (auto i : entities_collection.GetIndices()) {
             cats[i]->UpdatePosition();
         }
         fps_counter.FrameRendered();
@@ -72,9 +73,10 @@ int main(int argc, char* argv[]) {
     QObject::connect(&point_timer, &QTimer::timeout, [&]() {
         random_mover.Move(entities_collection);
         auto states = naive_algorithm.GetStates(entities_collection);
-        for (size_t i = 0; i < entities_collection.GetNumberOfEntities(); ++i) {
+        auto set_of_fixed_entities = random_mover.FixEntityCoordinates(entities_collection);
+        for (auto i : entities_collection.GetIndices()) {
             cats[i]->MoveTo(entities_collection.GetEntites()[i].x,
-                            entities_collection.GetEntites()[i].y);
+                            entities_collection.GetEntites()[i].y, set_of_fixed_entities.count(i));
             switch (states[i]) {
                 case entity::EntityState::Calm:
                     cats[i]->UpdatePixmap(calm_image);

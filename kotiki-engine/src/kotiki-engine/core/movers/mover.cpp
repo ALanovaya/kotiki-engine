@@ -19,6 +19,7 @@ bool Mover::FixCoordinates(entity::Entity& entity, FieldParams& field_params) {
         entity.y -= field_params.h;
         changed = true;
     }
+    return changed;
 }
 
 std::set<int> Mover::FixEntityCoordinates(entity::EntitiesCollection& entities) {

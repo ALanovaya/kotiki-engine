@@ -14,12 +14,21 @@ public:
         setPos(x, y);
     }
 
-    void MoveTo(double x, double y) {
+    void MoveTo(double x, double y, bool teleport_flag) {
         target_x_ = x;
         target_y_ = y;
+        to_teleport_ = teleport_flag;
+    }
+
+    void TeleportTo(double x, double y) {
+        setPos(x, y);
     }
 
     void UpdatePosition() {
+        if (to_teleport_) {
+            setPos(target_x_, target_y_);
+            return;
+        } 
         qreal current_x = pos().x();
         qreal current_y = pos().y();
 
@@ -42,6 +51,7 @@ public:
 private:
     qreal target_x_;
     qreal target_y_;
+    bool to_teleport_ = false;
 };
 
 }  // namespace graphics::models
