@@ -3,8 +3,8 @@
 #include "kotiki-engine/core/metrics/minkowski.hpp"
 
 namespace algo {
-class EuclideanMetric : public MinkowskiMetric {
+class ManhattanMetric : public MinkowskiMetric {
 public:
-    EuclideanMetric() : MinkowskiMetric(2.0) {}
+    ManhattanMetric() : MinkowskiMetric(1.0) {}
 };
 }  // namespace algo
