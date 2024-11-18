@@ -1,61 +1,27 @@
 #include <QApplication>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QLabel>
 #include <QMainWindow>
-#include <QPixmap>
-#include <QStatusBar>
-#include <QTimer>
-#include <kotiki-engine/entities/field.h>
+#include <kotiki-engine/graphics/settings.hpp>
 #include <memory>
+#include <qdockwidget.h>
 #include <vector>
 
 #include "kotiki-engine/core/algorithms/naive.hpp"
 #include "kotiki-engine/core/metrics/euclidean.hpp"
 #include "kotiki-engine/core/movers/random_mover.hpp"
+#include "kotiki-engine/entities/field.h"
+#include "kotiki-engine/graphics/cats_models.hpp"
 #include "kotiki-engine/graphics/fps_counter.hpp"
+#include "kotiki-engine/graphics/palette.hpp"
 #include "kotiki-engine/graphics/view.hpp"
-
-class Cats : public QGraphicsPixmapItem {
-public:
-    Cats(QPixmap const& pixmap, qreal x, qreal y)
-        : QGraphicsPixmapItem(pixmap), target_x_(x), target_y_(y) {
-        setPos(x, y);
-    }
-
-    void MoveTo(double x, double y) {
-        target_x_ = x;
-        target_y_ = y;
-    }
-
-    void UpdatePosition() {
-        qreal current_x = pos().x();
-        qreal current_y = pos().y();
-
-        qreal dx = target_x_ - current_x;
-        qreal dy = target_y_ - current_y;
-
-        qreal step_x = dx / 30;
-        qreal step_y = dy / 30;
-
-        setPos(current_x + step_x, current_y + step_y);
-    }
-
-    void UpdatePixmap(QPixmap const& pixmap) {
-        setPixmap(pixmap);
-    }
-
-private:
-    qreal target_x_;
-    qreal target_y_;
-};
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
+    graphics::theme::SetPalette(app);
 
     QMainWindow main_window;
-    main_window.setWindowTitle("Random Moving Cats");
+    main_window.setWindowTitle("kotiki-engine");
     main_window.resize(1440, 1024);
 
     auto scene = std::make_unique<QGraphicsScene>(&main_window);
@@ -66,8 +32,8 @@ int main(int argc, char* argv[]) {
     auto view = std::make_unique<graphics::ResizableGraphicsView>(scene.get());
     main_window.setCentralWidget(view.get());
 
-    scene->setSceneRect(0, 0, 2000, 2000);
-    FieldParams field_params = {0, 0, 2000, 2000};
+    scene->setSceneRect(0, 0, 3000, 2000);
+    FieldParams field_params = {0, 0, 3000, 2000};
 
     QPixmap calm_image("assets/textures/pushin.png");
     QPixmap angry_image("assets/textures/angry_pusheen.png");
@@ -75,12 +41,13 @@ int main(int argc, char* argv[]) {
 
     int const cats_size = 50;
 
-    std::vector<std::unique_ptr<Cats>> cats;
+    std::vector<std::unique_ptr<graphics::models::Cats>> cats;
     entity::EntitiesCollection entities_collection(cats_size, 20, field_params);
 
-    for (int i = 0; i < cats_size; ++i) {
-        auto cat = std::make_unique<Cats>(calm_image, entities_collection.GetEntites()[i].x,
-                                          entities_collection.GetEntites()[i].y);
+    for (int i = 0; i < entities_collection.GetNumberOfEntities(); ++i) {
+        auto cat = std::make_unique<graphics::models::Cats>(calm_image,
+                                                            entities_collection.GetEntites()[i].x,
+                                                            entities_collection.GetEntites()[i].y);
         cats.push_back(std::move(cat));
         scene->addItem(cats.back().get());
     }
