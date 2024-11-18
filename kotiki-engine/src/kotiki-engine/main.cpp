@@ -1,8 +1,9 @@
 #include <QApplication>
+#include <QGraphicsRectItem>
 #include <QGraphicsView>
 #include <QLabel>
 #include <QMainWindow>
-#include <iostream>
+#include <QPen>
 #include <memory>
 #include <qdockwidget.h>
 #include <vector>
@@ -35,6 +36,12 @@ int main(int argc, char* argv[]) {
     scene->setSceneRect(0, 0, 3000, 2000);
     FieldParams field_params = {0, 0, 3000, 2000};
 
+    QRectF scene_rect = scene->sceneRect();
+    QRectF border_rect(scene_rect.x() + 30, scene_rect.y() + 30, scene_rect.width() + 150,
+                       scene_rect.height() + 100);
+    QGraphicsRectItem* border = scene->addRect(border_rect, QPen(QColor(110, 69, 19), 10));
+    border->setZValue(1);
+
     QPixmap calm_image("assets/textures/pushin.png");
     QPixmap angry_image("assets/textures/angry_pusheen.png");
     QPixmap fighting_image("assets/textures/draka_pusheen.png");
@@ -61,7 +68,6 @@ int main(int argc, char* argv[]) {
     graphics::widgets::FPSCounter fps_counter;
     auto fps_label = std::make_unique<QLabel>(&main_window);
     main_window.statusBar()->addPermanentWidget(fps_label.get());
-    std::set<int> set_of_fixed_entities;
 
     QObject::connect(&update_timer, &QTimer::timeout, [&]() {
         for (auto i : entities_collection.GetIndices()) {
