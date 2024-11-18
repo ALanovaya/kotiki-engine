@@ -10,10 +10,10 @@ MinkowskiMetric::MinkowskiMetric(double p) {
 }
 
 coord_t MinkowskiMetric::Calculate(entity::Entity first, entity::Entity second) {
-    double diff_x = std::abs(first.x - second.x);
-    double diff_y = std::abs(first.y - second.y);
+    coord_t diff_x = std::abs(first.x - second.x);
+    coord_t diff_y = std::abs(first.y - second.y);
 
-    double sum = std::pow(diff_x, p_) + std::pow(diff_y, p_);
+    coord_t sum = std::pow(diff_x, p_) + std::pow(diff_y, p_);
 
     return std::pow(sum, 1.0 / p_);
 }
