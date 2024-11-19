@@ -2,14 +2,14 @@ name: clang-tidy-review
 
 on:
   pull_request:
-    paths:
-      - '**.cxx'
-      - '**.hxx'
     branches: [ main, develop ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  pull-requests: write
 
 jobs:
   review:
@@ -24,7 +24,9 @@ jobs:
         id: review
         with:
           build_dir: build
-          apt_packages: "libfftw3-dev,libnetcdf-c++4-dev,libopenmpi-dev,petsc-dev,slepc-dev,liblapack-dev,libparpack2-dev,libsundials-dev,uuid-dev"
+          apt_packages: "qt6-base-dev,qt6-tools-dev,libglu1-mesa-dev,freeglut3-dev,libfftw3-dev,libnetcdf-c++4-dev,libopenmpi-dev,petsc-dev,slepc-dev,liblapack-dev,libparpack2-dev,libsundials-dev,uuid-dev,libboost-all-dev"
+          cmake_command: cmake -B build -S . -DCMAKE_EXPORT_COMPILE_COMMANDS=on
+          config_file: ${{ github.workspace }}/.clang-tidy
 
       - uses: ZedThree/clang-tidy-review/upload@v0.14.0
         id: upload-review
