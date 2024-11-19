@@ -26,7 +26,8 @@ class SettingsWidget : public QDockWidget {
     Q_OBJECT
 
 public:
-    SettingsWidget(QWidget* parent = nullptr, int current_val = 20)
+    SettingsWidget(QWidget* parent = nullptr, int current_val = 20, int width = 3000,
+                   int height = 2000)
         : QDockWidget("Settings", parent) {
         QWidget* widget = new QWidget(this);
         QVBoxLayout* layout = new QVBoxLayout(widget);
@@ -36,10 +37,24 @@ public:
         spinBox_->setRange(1, 50000);
         spinBox_->setValue(current_val);
 
+        QLabel* width_label = new QLabel("Scene Width:", this);
+        width_spinBox_ = new QSpinBox(this);
+        width_spinBox_->setRange(100, 40000);
+        width_spinBox_->setValue(width);
+
+        QLabel* height_label = new QLabel("Scene Height:", this);
+        height_spinBox_ = new QSpinBox(this);
+        height_spinBox_->setRange(100, 30000);
+        height_spinBox_->setValue(height);
+
         QPushButton* apply_button = new QPushButton("Apply", this);
 
         layout->addWidget(label);
         layout->addWidget(spinBox_);
+        layout->addWidget(width_label);
+        layout->addWidget(width_spinBox_);
+        layout->addWidget(height_label);
+        layout->addWidget(height_spinBox_);
         layout->addWidget(apply_button);
         setWidget(widget);
 
@@ -48,15 +63,19 @@ public:
 
 signals:
     void NumberOfCatsChanged(int new_count);
+    void SceneDimensionsChanged(int new_width, int new_height);
 
 private slots:
 
     void OnApply() {
         emit NumberOfCatsChanged(spinBox_->value());
+        emit SceneDimensionsChanged(width_spinBox_->value(), height_spinBox_->value());
     }
 
 private:
     QSpinBox* spinBox_;
+    QSpinBox* width_spinBox_;
+    QSpinBox* height_spinBox_;
 };
 
 int main(int argc, char* argv[]) {
@@ -108,7 +127,8 @@ int main(int argc, char* argv[]) {
     QTimer update_timer;
 
     SettingsWidget* settings_widget =
-            new SettingsWidget(&main_window, entities_collection.GetNumberOfEntities());
+            new SettingsWidget(&main_window, entities_collection.GetNumberOfEntities(),
+                               field_params.w, field_params.h);
     main_window.addDockWidget(Qt::RightDockWidgetArea, settings_widget);
 
     QObject::connect(settings_widget, &SettingsWidget::NumberOfCatsChanged, [&](int new_count) {
@@ -128,6 +148,21 @@ int main(int argc, char* argv[]) {
         }
     });
 
+    QObject::connect(settings_widget, &SettingsWidget::SceneDimensionsChanged,
+                     [&](int new_width, int new_height) {
+                         scene->setSceneRect(0, 0, new_width, new_height);
+                         FieldParams field_params = {0, 0, new_width, new_height};
+                         entities_collection.SetFieldParams(field_params);
+
+                         scene->removeItem(border);
+
+                         QRectF scene_rect = scene->sceneRect();
+                         QRectF border_rect(scene_rect.x() + 30, scene_rect.y() + 40,
+                                            scene_rect.width() + 150, scene_rect.height() + 100);
+                         border = scene->addRect(border_rect, QPen(QColor(110, 69, 19), 10));
+                         border->setZValue(1);
+                     });
+
     graphics::widgets::FPSCounter fps_counter;
     auto fps_label = std::make_unique<QLabel>(&main_window);
     main_window.statusBar()->addPermanentWidget(fps_label.get());
@@ -141,8 +176,8 @@ int main(int argc, char* argv[]) {
 
     QObject::connect(&point_timer, &QTimer::timeout, [&]() {
         random_mover.Move(entities_collection);
-        auto states = naive_algorithm.GetStates(entities_collection);
         auto set_of_fixed_entities = random_mover.FixEntityCoordinates(entities_collection);
+        auto states = naive_algorithm.GetStates(entities_collection);
         for (int i = 0; i < entities_collection.GetNumberOfEntities(); ++i) {
             cats[i]->MoveTo(entities_collection.GetEntites()[i].x,
                             entities_collection.GetEntites()[i].y, set_of_fixed_entities.count(i));
