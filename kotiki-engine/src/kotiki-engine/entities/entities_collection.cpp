@@ -77,6 +77,8 @@ void EntitiesCollection::GenerateNewIndices() {
 
 void EntitiesCollection::SetNumberOfEntities(std::size_t number) {
     std::size_t prev_size = entities_.size();
+    max_number_of_moving_entites_ = std::min(max_number_of_moving_entites_, number);
+    indices_gen_.SetMax(number - 1);
     entities_.resize(number);
     start_coordinates_.resize(number);
 
