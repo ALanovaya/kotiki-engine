@@ -1,7 +1,6 @@
 #pragma once
 
 #include <algorithm>
-#include <random>
 #include <set>
 #include <vector>
 
@@ -21,6 +20,8 @@ private:
     FieldParams field_params_;
 
     util::RandomIntGenerator<std::size_t> indices_gen_;
+
+    void FixAllCoordinates();
 
 public:
     EntitiesCollection(std::size_t number_of_entities, FieldParams field_params);
@@ -57,8 +58,9 @@ public:
     }
 
     void FixateStartCoordinates() {
-        std::transform(entities_.begin(), entities_.end(), start_coordinates_.begin(),
-                       [](entity::Entity const& entity) { return std::pair{entity.x, entity.y}; });
+        std::transform(
+                entities_.begin(), entities_.end(), start_coordinates_.begin(),
+                [](entity::Entity const& entity) { return std::make_pair(entity.x, entity.y); });
     }
 
     std::size_t GetMaxMoving() const {
@@ -86,6 +88,7 @@ public:
 
     virtual void SetFieldParams(FieldParams field_params) {
         field_params_ = field_params;
+        FixAllCoordinates();
     }
 };
 }  // namespace entity

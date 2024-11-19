@@ -1,8 +1,23 @@
 #include "kotiki-engine/entities/entities_collection.hpp"
 
-#include <random>
-
 namespace entity {
+void EntitiesCollection::FixAllCoordinates() {
+    for (auto& entity : entities_) {
+        while (entity.x < field_params_.x) {
+            entity.x += field_params_.w;
+        }
+        while (entity.x > field_params_.x + field_params_.w) {
+            entity.x -= field_params_.w;
+        }
+        while (entity.y < field_params_.y) {
+            entity.y += field_params_.h;
+        }
+        while (entity.y > field_params_.y + field_params_.h) {
+            entity.y -= field_params_.h;
+        }
+    }
+}
+
 EntitiesCollection::EntitiesCollection(std::size_t number_of_entities, FieldParams field_params)
     : entities_(number_of_entities),
       start_coordinates_(number_of_entities),
@@ -53,7 +68,7 @@ EntitiesCollection::EntitiesCollection(std::vector<Entity> const& entities,
       indices_gen_(0, entities.size() - 1),
       field_params_(field_params) {
     std::transform(entities.begin(), entities.end(), start_coordinates_.begin(),
-                   [](entity::Entity const& entity) { return std::pair{entity.x, entity.y}; });
+                   [](entity::Entity const& entity) { return std::make_pair(entity.x, entity.y); });
     GenerateNewIndices();
 }
 
@@ -66,7 +81,7 @@ EntitiesCollection::EntitiesCollection(std::vector<Entity> const& entities,
       indices_gen_(0, entities.size() - 1),
       field_params_(field_params) {
     std::transform(entities.begin(), entities.end(), start_coordinates_.begin(),
-                   [](entity::Entity const& entity) { return std::pair{entity.x, entity.y}; });
+                   [](entity::Entity const& entity) { return std::make_pair(entity.x, entity.y); });
     GenerateNewIndices();
 }
 
@@ -79,6 +94,8 @@ void EntitiesCollection::GenerateNewIndices() {
 
 void EntitiesCollection::SetNumberOfEntities(std::size_t number) {
     std::size_t prev_size = entities_.size();
+    max_number_of_moving_entites_ = std::min(max_number_of_moving_entites_, number);
+    indices_gen_.SetMax(number - 1);
     entities_.resize(number);
     start_coordinates_.resize(number);
 

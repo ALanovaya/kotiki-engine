@@ -29,5 +29,9 @@ public:
     virtual void SetR1(coord_t R1) {
         R1_ = R1;
     }
+
+    virtual void SetMetric(std::unique_ptr<Metric>&& metric) {
+        metric_ = std::move(metric);
+    }
 };
 }  // namespace algo

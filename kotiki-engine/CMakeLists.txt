@@ -15,19 +15,23 @@ set(SRC_FILES
     ${TARGET_SOURCE_DIR}/kotiki-engine/graphics/view.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/trajectory/trajectory.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/algorithms/naive.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/algorithms/grid_lookup.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/metrics/minkowski.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/metrics/chebyshev.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/core/algorithms/grid_lookup.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/movers/mover.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/movers/random_mover.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/core/movers/trajectory_mover.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/utils/random.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/entities/entities_collection.cpp
-
+    ${TARGET_SOURCE_DIR}/kotiki-engine/graphics/palette.cpp
 )
 
 set(INCLUDE_FILES
     ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/fps_counter.hpp
     ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/view.hpp
+    ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/palette.hpp
+    ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/settings.hpp
 )
 
 #####################################

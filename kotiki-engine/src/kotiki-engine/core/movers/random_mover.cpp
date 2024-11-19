@@ -21,8 +21,6 @@ void RandomMover::MoveInternal(entity::EntitiesCollection& entities) {
 
         entity.x += gen_.Generate() * x_sign;
         entity.y += gen_.Generate() * y_sign;
-
-        FixCoordinates(entity, entities.GetFieldParams());
     }
 }
 }  // namespace mover

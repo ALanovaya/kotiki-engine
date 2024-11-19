@@ -33,5 +33,13 @@ public:
         }
         max_step_ = max_step;
     }
+
+    int GetMinStep() {
+        return min_step_;
+    }
+
+    int GetMaxStep() {
+        return max_step_;
+    }
 };
 }  // namespace mover
