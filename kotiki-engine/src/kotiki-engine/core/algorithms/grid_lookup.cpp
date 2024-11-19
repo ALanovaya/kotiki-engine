@@ -27,7 +27,7 @@ std::vector<entity::EntityState> GridLookupAlgorithm::GetStates(
             throw std::invalid_argument(
                     "Some entities are out of field, impossible to use grid lookup algorithm.");
         }
-        grid_[cell_x * cell_count_x + cell_y].push_back(i);
+        grid_[cell_x * cell_count_y + cell_y].push_back(i);
     }
 
     for (auto index : entities.GetIndices()) {
@@ -44,7 +44,7 @@ std::vector<entity::EntityState> GridLookupAlgorithm::GetStates(
                     continue;
                 }
                 auto const& neigh_cell =
-                        grid_[(cell_x + offset_x) * cell_count_x + cell_y + offset_y];
+                        grid_[(cell_x + offset_x) * cell_count_y + cell_y + offset_y];
                 for (auto neigh_index : neigh_cell) {
                     if (neigh_index == index) {
                         continue;
