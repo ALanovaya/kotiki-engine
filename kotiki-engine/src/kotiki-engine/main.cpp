@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QComboBox>
 #include <QDockWidget>
 #include <QGraphicsRectItem>
 #include <QGraphicsView>
@@ -9,12 +10,13 @@
 #include <QSpinBox>
 #include <QVBoxLayout>
 #include <iostream>
+#include <kotiki-engine/core/algorithms/grid_lookup.hpp>
 #include <memory>
 #include <qdockwidget.h>
 #include <vector>
 
-#include "kotiki-engine/core/algorithms/naive.hpp"
-#include "kotiki-engine/core/metrics/euclidean.hpp"
+#include "kotiki-engine/core/algorithms/algorithms.hpp"
+#include "kotiki-engine/core/metrics/metrics.hpp"
 #include "kotiki-engine/core/movers/random_mover.hpp"
 #include "kotiki-engine/entities/field.h"
 #include "kotiki-engine/graphics/cats_models.hpp"
@@ -32,6 +34,7 @@ public:
         QWidget* widget = new QWidget(this);
         QVBoxLayout* layout = new QVBoxLayout(widget);
 
+        // Создание элементов управления
         QLabel* label = new QLabel("Number of Cats:", this);
         spinBox_ = new QSpinBox(this);
         spinBox_->setRange(1, 50000);
@@ -47,6 +50,21 @@ public:
         height_spinBox_->setRange(100, 30000);
         height_spinBox_->setValue(height);
 
+        QLabel* metric_label = new QLabel("Select Metric:", this);
+        metricComboBox_ = new QComboBox(this);
+        metricComboBox_->addItem("Euclidean");
+        metricComboBox_->addItem("Minkowski");
+        metricComboBox_->addItem("Manhattan");
+        metricComboBox_->addItem("Chebyshev");
+
+        // Поле ввода для параметра p
+        p_label_ = new QLabel("Minkowski p:", this);
+        pSpinBox_ = new QDoubleSpinBox(this);
+        pSpinBox_->setRange(0.0, 10);
+        pSpinBox_->setValue(0.5);
+        pSpinBox_->setVisible(false);
+        p_label_->setVisible(false);
+
         QPushButton* apply_button = new QPushButton("Apply", this);
 
         layout->addWidget(label);
@@ -55,27 +73,78 @@ public:
         layout->addWidget(width_spinBox_);
         layout->addWidget(height_label);
         layout->addWidget(height_spinBox_);
+        layout->addWidget(metric_label);
+        layout->addWidget(metricComboBox_);
+        layout->addWidget(p_label_);
+        layout->addWidget(pSpinBox_);
         layout->addWidget(apply_button);
         setWidget(widget);
 
         connect(apply_button, &QPushButton::clicked, this, &SettingsWidget::OnApply);
+
+        connect(metricComboBox_, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]() {
+            std::unique_ptr<algo::Metric> new_metric;
+            switch (metricComboBox_->currentIndex()) {
+                case 0:  // Euclidean
+                    new_metric = std::make_unique<algo::EuclideanMetric>();
+                    pSpinBox_->setVisible(false);
+                    p_label_->setVisible(false);
+                    break;
+                case 1:  // Minkowski
+                    pSpinBox_->setVisible(true);
+                    p_label_->setVisible(true);
+                    new_metric = std::make_unique<algo::MinkowskiMetric>(pSpinBox_->value());
+                    break;
+                case 2:  // Manhattan
+                    new_metric = std::make_unique<algo::ManhattanMetric>();
+                    pSpinBox_->setVisible(false);
+                    p_label_->setVisible(false);
+                    break;
+                case 3:  // Chebyshev
+                    new_metric = std::make_unique<algo::ChebyshevMetric>();
+                    pSpinBox_->setVisible(false);
+                    p_label_->setVisible(false);
+                    break;
+            }
+            emit MetricChanged(new_metric);
+        });
     }
 
 signals:
     void NumberOfCatsChanged(int new_count);
     void SceneDimensionsChanged(int new_width, int new_height);
+    void MetricChanged(std::unique_ptr<algo::Metric>& new_metric);
 
 private slots:
 
     void OnApply() {
         emit NumberOfCatsChanged(spinBox_->value());
         emit SceneDimensionsChanged(width_spinBox_->value(), height_spinBox_->value());
+        std::unique_ptr<algo::Metric> new_metric;
+        switch (metricComboBox_->currentIndex()) {
+            case 0:  // Euclidean
+                new_metric = std::make_unique<algo::EuclideanMetric>();
+                break;
+            case 1:  // Minkowski
+                new_metric = std::make_unique<algo::MinkowskiMetric>(pSpinBox_->value());
+                break;
+            case 2:  // Manhattan
+                new_metric = std::make_unique<algo::ManhattanMetric>();
+                break;
+            case 3:  // Chebyshev
+                new_metric = std::make_unique<algo::ChebyshevMetric>();
+                break;
+        }
+        emit MetricChanged(new_metric);
     }
 
 private:
     QSpinBox* spinBox_;
     QSpinBox* width_spinBox_;
     QSpinBox* height_spinBox_;
+    QComboBox* metricComboBox_;
+    QDoubleSpinBox* pSpinBox_;
+    QLabel* p_label_;
 };
 
 int main(int argc, char* argv[]) {
@@ -121,7 +190,7 @@ int main(int argc, char* argv[]) {
     }
 
     mover::RandomMover random_mover(10, 100);
-    algo::NaiveAlgorithm naive_algorithm(200.0, 500.0, std::make_unique<algo::EuclideanMetric>());
+    algo::GridLookupAlgorithm grid_lookup(200.0, 500.0, std::make_unique<algo::EuclideanMetric>());
 
     QTimer point_timer;
     QTimer update_timer;
@@ -163,12 +232,17 @@ int main(int argc, char* argv[]) {
                          border->setZValue(1);
                      });
 
+    QObject::connect(settings_widget, &SettingsWidget::MetricChanged,
+                     [&](std::unique_ptr<algo::Metric>& new_metric) {
+                         grid_lookup.SetMetric(std::move(new_metric));
+                     });
+
     graphics::widgets::FPSCounter fps_counter;
     auto fps_label = std::make_unique<QLabel>(&main_window);
     main_window.statusBar()->addPermanentWidget(fps_label.get());
 
     QObject::connect(&update_timer, &QTimer::timeout, [&]() {
-        for (int i = 0; i < entities_collection.GetNumberOfEntities(); ++i) {
+        for (auto i : entities_collection.GetIndices()) {
             cats[i]->UpdatePosition();
         }
         fps_counter.FrameRendered();
@@ -177,7 +251,7 @@ int main(int argc, char* argv[]) {
     QObject::connect(&point_timer, &QTimer::timeout, [&]() {
         random_mover.Move(entities_collection);
         auto set_of_fixed_entities = random_mover.FixEntityCoordinates(entities_collection);
-        auto states = naive_algorithm.GetStates(entities_collection);
+        auto states = grid_lookup.GetStates(entities_collection);
         for (int i = 0; i < entities_collection.GetNumberOfEntities(); ++i) {
             cats[i]->MoveTo(entities_collection.GetEntites()[i].x,
                             entities_collection.GetEntites()[i].y, set_of_fixed_entities.count(i));
