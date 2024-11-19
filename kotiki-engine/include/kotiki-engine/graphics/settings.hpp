@@ -73,7 +73,7 @@ public:
 
         QLabel* max_moving_cats_label = new QLabel("Max Moving Cats:", this);
         max_moving_cats_spinBox_ = new QSpinBox(this);
-        max_moving_cats_spinBox_->setRange(1, std::min(cats_count, 10000));
+        max_moving_cats_spinBox_->setRange(1, 10000);
         max_moving_cats_spinBox_->setValue(max_moving_cats);
 
         QLabel* tau_label = new QLabel("Tau (ms):", this);
