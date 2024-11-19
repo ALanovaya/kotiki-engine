@@ -14,19 +14,19 @@ std::vector<entity::EntityState> GridLookupAlgorithm::GetStates(
             static_cast<int>(std::floor(static_cast<coord_t>(entities.GetFieldParams().h) / R1_)) +
             1;
 
-    grid_.clear();
-    grid_.resize(cell_count_x * cell_count_y, {});
+    grid_ = std::vector<std::vector<int>>(cell_count_x * cell_count_y, std::vector<int>(0));
     auto const& field_params = entities.GetFieldParams();
     auto const& entities_vector = entities.GetEntites();
 
     for (int i = 0; i < entities.GetNumberOfEntities(); ++i) {
         auto const& entity = entities_vector[i];
-        int cell_x = static_cast<int>(std::floor((entity.x - field_params.x) / R1_));
-        int cell_y = static_cast<int>(std::floor((entity.y - field_params.y) / R1_));
-        if (cell_x < 0 || cell_y < 0 || cell_x >= cell_count_x || cell_y >= cell_count_y) {
+        if (entity.x < field_params.x || entity.x > field_params.x + field_params.w ||
+            entity.y < field_params.y || entity.y > field_params.y + field_params.h) {
             throw std::invalid_argument(
                     "Some entities are out of field, impossible to use grid lookup algorithm.");
         }
+        int cell_x = static_cast<int>(std::floor((entity.x - field_params.x) / R1_));
+        int cell_y = static_cast<int>(std::floor((entity.y - field_params.y) / R1_));
         grid_[cell_x * cell_count_y + cell_y].push_back(i);
     }
 
