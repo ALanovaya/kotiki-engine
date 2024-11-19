@@ -31,6 +31,7 @@ set(INCLUDE_FILES
     ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/fps_counter.hpp
     ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/view.hpp
     ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/palette.hpp
+    ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/settings.hpp
 )
 
 #####################################
