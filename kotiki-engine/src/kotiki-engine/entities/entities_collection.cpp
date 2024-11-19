@@ -1,6 +1,23 @@
 #include "kotiki-engine/entities/entities_collection.hpp"
 
 namespace entity {
+void EntitiesCollection::FixAllCoordinates() {
+    for (auto& entity : entities_) {
+        while (entity.x < field_params_.x) {
+            entity.x += field_params_.w;
+        }
+        while (entity.x > field_params_.x + field_params_.w) {
+            entity.x -= field_params_.w;
+        }
+        while (entity.y < field_params_.y) {
+            entity.y += field_params_.h;
+        }
+        while (entity.y > field_params_.y + field_params_.h) {
+            entity.y -= field_params_.h;
+        }
+    }
+}
+
 EntitiesCollection::EntitiesCollection(std::size_t number_of_entities, FieldParams field_params)
     : entities_(number_of_entities),
       start_coordinates_(number_of_entities),

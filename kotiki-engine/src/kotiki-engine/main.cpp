@@ -98,6 +98,7 @@ int main(int argc, char* argv[]) {
                          scene->setSceneRect(0, 0, new_width, new_height);
                          FieldParams field_params = {0, 0, new_width, new_height};
                          entities_collection.SetFieldParams(field_params);
+                         entities_collection.FixateStartCoordinates();
 
                          scene->removeItem(border);
 

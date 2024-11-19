@@ -21,6 +21,8 @@ private:
 
     util::RandomIntGenerator<std::size_t> indices_gen_;
 
+    void FixAllCoordinates();
+
 public:
     EntitiesCollection(std::size_t number_of_entities, FieldParams field_params);
     EntitiesCollection(std::size_t number_of_entities, std::size_t max_number_of_moving_entites,
@@ -56,8 +58,9 @@ public:
     }
 
     void FixateStartCoordinates() {
-        std::transform(entities_.begin(), entities_.end(), start_coordinates_.begin(),
-                       [](entity::Entity const& entity) { return std::make_pair(entity.x, entity.y); });
+        std::transform(
+                entities_.begin(), entities_.end(), start_coordinates_.begin(),
+                [](entity::Entity const& entity) { return std::make_pair(entity.x, entity.y); });
     }
 
     std::size_t GetMaxMoving() const {
@@ -85,6 +88,7 @@ public:
 
     virtual void SetFieldParams(FieldParams field_params) {
         field_params_ = field_params;
+        FixAllCoordinates();
     }
 };
 }  // namespace entity
