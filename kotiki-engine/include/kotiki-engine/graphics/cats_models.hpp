@@ -20,10 +20,6 @@ public:
         to_teleport_ = teleport_flag;
     }
 
-    void TeleportTo(double x, double y) {
-        setPos(x, y);
-    }
-
     void UpdatePosition() {
         if (to_teleport_) {
             setPos(target_x_, target_y_);
