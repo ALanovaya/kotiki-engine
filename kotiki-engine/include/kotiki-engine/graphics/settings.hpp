@@ -8,9 +8,9 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QPen>
 #include <QPushButton>
-#include <QMessageBox>
 #include <QSpinBox>
 #include <QVBoxLayout>
 #include <kotiki-engine/utils/types.h>
@@ -232,12 +232,11 @@ private slots:
 
             if (x_expression.empty() || y_expression.empty()) {
                 QMessageBox::warning(this, "Input Error", "Expression is invalid.");
-                return; 
+                return;
             }
 
-            new_mover = std::make_unique<mover::TrajectoryMover>(
-                    x_expression,
-                    y_expression, tau_spinBox_->value() / 1000.0);
+            new_mover = std::make_unique<mover::TrajectoryMover>(x_expression, y_expression,
+                                                                 tau_spinBox_->value() / 1000.0);
         }
         emit MoverChanged(new_mover);
     }

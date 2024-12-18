@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "kotiki-engine/core/metrics/metric.hpp"
-#include "kotiki-engine/entities/entities_collection.hpp"
+#include "kotiki-engine/entities/scene_manager.hpp"
 #include "kotiki-engine/entities/states.hpp"
 #include "kotiki-engine/utils/types.h"
 
@@ -19,8 +19,7 @@ public:
     Algorithm(coord_t R0, coord_t R1, std::unique_ptr<Metric>&& metric)
         : R0_(R0), R1_(R1), metric_(std::move(metric)) {}
 
-    virtual std::vector<entity::EntityState> GetStates(
-            entity::EntitiesCollection const& entities) = 0;
+    virtual std::vector<entity::EntityState> GetStates(entity::SceneManager const& scene) = 0;
 
     virtual void SetR0(coord_t R0) {
         R0_ = R0;

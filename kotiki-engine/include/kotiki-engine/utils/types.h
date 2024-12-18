@@ -1,3 +1,3 @@
 #pragma once
 
-using coord_t = double;
+using coord_t = float;

@@ -3,9 +3,8 @@
 #include "kotiki-engine/utils/random.hpp"
 
 namespace algo {
-std::vector<entity::EntityState> NaiveAlgorithm::GetStates(
-        entity::EntitiesCollection const& entities) {
-    auto const& entities_vector = entities.GetEntites();
+std::vector<entity::EntityState> NaiveAlgorithm::GetStates(entity::SceneManager const& scene) {
+    auto const& entities_vector = scene.GetEntites();
     std::vector<entity::EntityState> states(entities_vector.size(), entity::EntityState::Calm);
 
     for (int i = 0; i < entities_vector.size(); ++i) {
