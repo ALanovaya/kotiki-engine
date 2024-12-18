@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
     int const cats_size = 50;
 
     std::vector<std::unique_ptr<graphics::models::Cats>> cats;
-    entity::EntitiesCollection entities_collection(cats_size, 20, field_params);
+    entity::SceneManager entities_collection(cats_size, 20, field_params);
 
     for (int i = 0; i < entities_collection.GetNumberOfEntities(); ++i) {
         auto cat = std::make_unique<graphics::models::Cats>(calm_image,

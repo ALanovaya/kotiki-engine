@@ -13,7 +13,7 @@ private:
 
     util::RandomRealGenerator<coord_t> gen_;
 
-    void MoveInternal(entity::EntitiesCollection& entities);
+    void MoveInternal(entity::SceneManager& scene);
 
 public:
     RandomMover(coord_t min_step, coord_t max_step);

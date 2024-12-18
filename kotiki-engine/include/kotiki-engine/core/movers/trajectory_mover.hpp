@@ -14,7 +14,7 @@ private:
     double current_time_;
     double timedelta_;
 
-    void MoveInternal(entity::EntitiesCollection& entities) override;
+    void MoveInternal(entity::SceneManager& scene) override;
 
 public:
     TrajectoryMover(std::string const& x_expression, std::string const& y_expression,

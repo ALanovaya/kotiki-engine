@@ -1,20 +1,20 @@
 #pragma once
 
-#include "kotiki-engine/entities/entities_collection.hpp"
+#include "kotiki-engine/entities/scene_manager.hpp"
 
 namespace mover {
 class Mover {
 protected:
-    virtual void MoveInternal(entity::EntitiesCollection& entities) = 0;
+    virtual void MoveInternal(entity::SceneManager& scene) = 0;
 
     static bool FixCoordinates(entity::Entity& entity, FieldParams& field_params);
 
 public:
-    virtual void Move(entity::EntitiesCollection& entities) {
-        entities.GenerateNewIndices();
-        MoveInternal(entities);
+    virtual void Move(entity::SceneManager& scene) {
+        scene.GenerateNewIndices();
+        MoveInternal(scene);
     };
 
-    static std::set<int> FixEntityCoordinates(entity::EntitiesCollection& entities);
+    static std::set<int> FixEntityCoordinates(entity::SceneManager& scene);
 };
 }  // namespace mover

@@ -1,7 +1,7 @@
-#include "kotiki-engine/entities/entities_collection.hpp"
+#include "kotiki-engine/entities/scene_manager.hpp"
 
 namespace entity {
-void EntitiesCollection::FixAllCoordinates() {
+void SceneManager::FixAllCoordinates() {
     for (auto& entity : entities_) {
         while (entity.x < field_params_.x) {
             entity.x += field_params_.w;
@@ -18,7 +18,7 @@ void EntitiesCollection::FixAllCoordinates() {
     }
 }
 
-EntitiesCollection::EntitiesCollection(std::size_t number_of_entities, FieldParams field_params)
+SceneManager::SceneManager(std::size_t number_of_entities, FieldParams field_params)
     : entities_(number_of_entities),
       start_coordinates_(number_of_entities),
       max_number_of_moving_entites_(number_of_entities),
@@ -38,9 +38,8 @@ EntitiesCollection::EntitiesCollection(std::size_t number_of_entities, FieldPara
     }
 }
 
-EntitiesCollection::EntitiesCollection(std::size_t number_of_entities,
-                                       std::size_t max_number_of_moving_entites,
-                                       FieldParams field_params)
+SceneManager::SceneManager(std::size_t number_of_entities, std::size_t max_number_of_moving_entites,
+                           FieldParams field_params)
     : entities_(number_of_entities),
       start_coordinates_(number_of_entities),
       max_number_of_moving_entites_(max_number_of_moving_entites),
@@ -60,8 +59,7 @@ EntitiesCollection::EntitiesCollection(std::size_t number_of_entities,
     }
 }
 
-EntitiesCollection::EntitiesCollection(std::vector<Entity> const& entities,
-                                       FieldParams field_params)
+SceneManager::SceneManager(std::vector<Entity> const& entities, FieldParams field_params)
     : entities_(entities),
       start_coordinates_(entities.size()),
       max_number_of_moving_entites_(entities.size()),
@@ -72,9 +70,8 @@ EntitiesCollection::EntitiesCollection(std::vector<Entity> const& entities,
     GenerateNewIndices();
 }
 
-EntitiesCollection::EntitiesCollection(std::vector<Entity> const& entities,
-                                       std::size_t max_number_of_moving_entites,
-                                       FieldParams field_params)
+SceneManager::SceneManager(std::vector<Entity> const& entities,
+                           std::size_t max_number_of_moving_entites, FieldParams field_params)
     : entities_(entities),
       start_coordinates_(entities.size()),
       max_number_of_moving_entites_(std::min(entities.size(), max_number_of_moving_entites)),
@@ -85,14 +82,14 @@ EntitiesCollection::EntitiesCollection(std::vector<Entity> const& entities,
     GenerateNewIndices();
 }
 
-void EntitiesCollection::GenerateNewIndices() {
+void SceneManager::GenerateNewIndices() {
     moving_entities_indices_.clear();
     for (int i = 0; i < max_number_of_moving_entites_; ++i) {
         moving_entities_indices_.insert(indices_gen_.Generate());
     }
 }
 
-void EntitiesCollection::SetNumberOfEntities(std::size_t number) {
+void SceneManager::SetNumberOfEntities(std::size_t number) {
     std::size_t prev_size = entities_.size();
     max_number_of_moving_entites_ = std::min(max_number_of_moving_entites_, number);
     indices_gen_.SetMax(number - 1);
