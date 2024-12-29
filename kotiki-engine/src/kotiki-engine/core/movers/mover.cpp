@@ -22,11 +22,11 @@ bool Mover::FixCoordinates(entity::Entity& entity, FieldParams& field_params) {
     return changed;
 }
 
-std::set<int> Mover::FixEntityCoordinates(entity::EntitiesCollection& entities) {
+std::set<int> Mover::FixEntityCoordinates(entity::SceneManager& scene) {
     std::set<int> indices;
-    for (auto index : entities.GetIndices()) {
-        auto& entity = entities.GetEntites()[index];
-        if (Mover::FixCoordinates(entity, entities.GetFieldParams())) {
+    for (auto index : scene.GetIndices()) {
+        auto& entity = scene.GetEntites()[index];
+        if (Mover::FixCoordinates(entity, scene.GetFieldParams())) {
             indices.insert(index);
         }
     }

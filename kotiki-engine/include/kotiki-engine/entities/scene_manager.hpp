@@ -9,12 +9,11 @@
 #include "kotiki-engine/utils/random.hpp"
 
 namespace entity {
-class EntitiesCollection {
+class SceneManager {
 private:
     std::vector<Entity> entities_;
     std::vector<std::pair<coord_t, coord_t>> start_coordinates_;
     std::size_t max_number_of_moving_entites_;
-
     std::set<std::size_t> moving_entities_indices_;
 
     FieldParams field_params_;
@@ -24,12 +23,12 @@ private:
     void FixAllCoordinates();
 
 public:
-    EntitiesCollection(std::size_t number_of_entities, FieldParams field_params);
-    EntitiesCollection(std::size_t number_of_entities, std::size_t max_number_of_moving_entites,
-                       FieldParams field_params);
-    EntitiesCollection(std::vector<Entity> const& entities, FieldParams field_params);
-    EntitiesCollection(std::vector<Entity> const& entities,
-                       std::size_t max_number_of_moving_entites, FieldParams field_params);
+    SceneManager(std::size_t number_of_entities, FieldParams field_params);
+    SceneManager(std::size_t number_of_entities, std::size_t max_number_of_moving_entites,
+                 FieldParams field_params);
+    SceneManager(std::vector<Entity> const& entities, FieldParams field_params);
+    SceneManager(std::vector<Entity> const& entities, std::size_t max_number_of_moving_entites,
+                 FieldParams field_params);
 
     void GenerateNewIndices();
 
