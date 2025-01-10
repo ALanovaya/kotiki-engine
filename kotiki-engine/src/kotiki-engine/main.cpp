@@ -11,7 +11,6 @@
 #include <qdockwidget.h>
 #include <vector>
 
-#include "kotiki-engine/entities/field.h"
 #include "kotiki-engine/graphics/cats_models.hpp"
 #include "kotiki-engine/graphics/fps_counter.hpp"
 #include "kotiki-engine/graphics/palette.hpp"
@@ -35,7 +34,7 @@ int main(int argc, char* argv[]) {
     main_window.setCentralWidget(view.get());
 
     scene->setSceneRect(0, 0, 3000, 2000);
-    FieldParams field_params = {0, 0, 3000, 2000};
+    entity::FieldParams field_params = {0, 0, 3000, 2000};
 
     QRectF scene_rect = scene->sceneRect();
     QRectF border_rect(scene_rect.x() + 30, scene_rect.y() + 40, scene_rect.width() + 150,
@@ -50,7 +49,7 @@ int main(int argc, char* argv[]) {
     int const cats_size = 50;
 
     std::vector<std::unique_ptr<graphics::models::Cats>> cats;
-    entity::SceneManager entities_collection(cats_size, 20, field_params);
+    entity::SceneManager entities_collection(cats_size, field_params, 20);
 
     for (int i = 0; i < entities_collection.GetNumberOfEntities(); ++i) {
         auto cat = std::make_unique<graphics::models::Cats>(calm_image,
@@ -96,7 +95,7 @@ int main(int argc, char* argv[]) {
                      &graphics::widgets::settings::SettingsWidget::SceneDimensionsChanged,
                      [&](int new_width, int new_height) {
                          scene->setSceneRect(0, 0, new_width, new_height);
-                         FieldParams field_params = {0, 0, new_width, new_height};
+                         entity::FieldParams field_params = {0, 0, new_width, new_height};
                          entities_collection.SetFieldParams(field_params);
                          entities_collection.FixateStartCoordinates();
 

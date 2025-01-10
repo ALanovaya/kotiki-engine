@@ -15,6 +15,10 @@ protected:
 
 public:
     RandomGenerator(T min, T max) : rd_(), gen_(rd_()), min_(min), max_(max) {};
+
+    RandomGenerator(RandomGenerator<T> const&) = default;
+    RandomGenerator(RandomGenerator<T>&&) = default;
+
     virtual T Generate() = 0;
     virtual void SetMin(T min) = 0;
     virtual void SetMax(T min) = 0;
@@ -28,6 +32,9 @@ private:
 
 public:
     RandomRealGenerator(T min, T max) : RandomGenerator<T>(min, max), distr_(min, max) {}
+
+    RandomRealGenerator(RandomRealGenerator<T> const&) = default;
+    RandomRealGenerator(RandomRealGenerator<T>&&) = default;
 
     T Generate() override final {
         return distr_(this->gen_);
@@ -57,6 +64,9 @@ private:
 
 public:
     RandomIntGenerator(T min, T max) : RandomGenerator<T>(min, max), distr_(min, max) {}
+
+    RandomIntGenerator(RandomIntGenerator<T> const&) = default;
+    RandomIntGenerator(RandomIntGenerator<T>&&) = default;
 
     T Generate() override final {
         return distr_(this->gen_);

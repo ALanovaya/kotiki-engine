@@ -5,10 +5,16 @@
 #include <vector>
 
 #include "kotiki-engine/entities/entity.hpp"
-#include "kotiki-engine/entities/field.h"
 #include "kotiki-engine/utils/random.hpp"
 
 namespace entity {
+struct FieldParams {
+    int x;
+    int y;
+    int w;
+    int h;
+};
+
 class SceneManager {
 private:
     std::vector<Entity> entities_;
@@ -23,12 +29,14 @@ private:
     void FixAllCoordinates();
 
 public:
-    SceneManager(std::size_t number_of_entities, FieldParams field_params);
-    SceneManager(std::size_t number_of_entities, std::size_t max_number_of_moving_entites,
-                 FieldParams field_params);
-    SceneManager(std::vector<Entity> const& entities, FieldParams field_params);
-    SceneManager(std::vector<Entity> const& entities, std::size_t max_number_of_moving_entites,
-                 FieldParams field_params);
+    SceneManager(std::vector<Entity> const& entities, FieldParams field_params,
+                 std::size_t max_number_of_moving_entites = 250);
+
+    SceneManager(std::size_t number_of_entities, FieldParams field_params,
+                 std::size_t max_number_of_moving_entites = 250);
+
+    SceneManager(SceneManager const&) = default;
+    SceneManager(SceneManager&&) = default;
 
     void GenerateNewIndices();
 
@@ -67,7 +75,7 @@ public:
     }
 
     void SetMaxMoving(std::size_t max_number_of_moving_entites) {
-        max_number_of_moving_entites_ = std::min(entities_.size(), max_number_of_moving_entites);
+        max_number_of_moving_entites_ = max_number_of_moving_entites;
         GenerateNewIndices();
     }
 

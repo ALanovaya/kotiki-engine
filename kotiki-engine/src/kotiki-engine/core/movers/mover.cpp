@@ -1,7 +1,7 @@
 #include "kotiki-engine/core/movers/mover.hpp"
 
 namespace mover {
-bool Mover::FixCoordinates(entity::Entity& entity, FieldParams& field_params) {
+bool Mover::FixCoordinates(entity::Entity& entity, entity::FieldParams& field_params) {
     bool changed = false;
     while (entity.x < field_params.x) {
         entity.x += field_params.w;
