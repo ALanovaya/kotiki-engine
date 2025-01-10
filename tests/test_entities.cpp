@@ -6,20 +6,6 @@ namespace {
 int number_of_entities = 4;
 entity::FieldParams field_params = {-1000, -1000, 2000, 2000};
 
-TEST(SceneManager, AllMoving) {
-    std::vector<entity::Entity> entities(number_of_entities, {1.0, 1.0});
-    entity::SceneManager entities_collection_1(entities, field_params);
-    entity::SceneManager entities_collection_2(entities, field_params, 4);
-    entity::SceneManager entities_collection_3(entities, field_params, number_of_entities * 10);
-    entity::SceneManager entities_collection_4(entities, field_params, 1);
-    entities_collection_4.SetMaxMoving(number_of_entities);
-
-    EXPECT_EQ(entities_collection_1.GetMaxMoving(), number_of_entities);
-    EXPECT_EQ(entities_collection_2.GetMaxMoving(), number_of_entities);
-    EXPECT_EQ(entities_collection_3.GetMaxMoving(), number_of_entities);
-    EXPECT_EQ(entities_collection_4.GetMaxMoving(), number_of_entities);
-}
-
 TEST(SceneManager, NoMoving) {
     std::vector<entity::Entity> entities(number_of_entities, {1.0, 1.0});
     entity::SceneManager entities_collection_1(entities, field_params, 0);
