@@ -15,6 +15,8 @@ struct FieldParams {
     int h;
 };
 
+enum class DayTime : char { Day = 0, Night };
+
 class SceneManager {
 private:
     std::vector<Entity> entities_;
@@ -23,6 +25,9 @@ private:
     std::set<std::size_t> moving_entities_indices_;
 
     FieldParams field_params_;
+    DayTime daytime_;
+    int daytime_delta_;  // To determinate how often daytime gonna change
+    int current_time_;
 
     util::RandomIntGenerator<std::size_t> indices_gen_;
 
@@ -30,10 +35,10 @@ private:
 
 public:
     SceneManager(std::vector<Entity> const& entities, FieldParams field_params,
-                 std::size_t max_number_of_moving_entites = 250);
+                 std::size_t max_number_of_moving_entites = 250, int daytime_delta = 20);
 
     SceneManager(std::size_t number_of_entities, FieldParams field_params,
-                 std::size_t max_number_of_moving_entites = 250);
+                 std::size_t max_number_of_moving_entites = 250, int daytime_delta = 20);
 
     SceneManager(SceneManager const&) = default;
     SceneManager(SceneManager&&) = default;
@@ -91,6 +96,10 @@ public:
 
     FieldParams const& GetFieldParams() const {
         return field_params_;
+    }
+
+    DayTime GetDateTime() const {
+        return daytime_;
     }
 
     virtual void SetFieldParams(FieldParams field_params) {

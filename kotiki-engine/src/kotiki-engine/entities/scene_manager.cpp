@@ -19,24 +19,30 @@ void SceneManager::FixAllCoordinates() {
 }
 
 SceneManager::SceneManager(std::vector<Entity> const& entities, FieldParams field_params,
-                           std::size_t max_number_of_moving_entites)
+                           std::size_t max_number_of_moving_entites, int daytime_delta = 20)
     : entities_(entities),
       start_coordinates_(entities.size()),
       max_number_of_moving_entites_(max_number_of_moving_entites),
       indices_gen_(0, entities.size() - 1),
-      field_params_(field_params) {
+      field_params_(field_params),
+      daytime_(DayTime::Day),
+      daytime_delta_(daytime_delta),
+      current_time_(0) {
     std::transform(entities.begin(), entities.end(), start_coordinates_.begin(),
                    [](entity::Entity const& entity) { return std::make_pair(entity.x, entity.y); });
     GenerateNewIndices();
 }
 
 SceneManager::SceneManager(std::size_t number_of_entities, entity::FieldParams field_params,
-                           std::size_t max_number_of_moving_entites)
+                           std::size_t max_number_of_moving_entites, int daytime_delta = 20)
     : entities_(number_of_entities),
       start_coordinates_(number_of_entities),
       max_number_of_moving_entites_(max_number_of_moving_entites),
       indices_gen_(0, number_of_entities - 1),
-      field_params_(field_params) {
+      field_params_(field_params),
+      daytime_(DayTime::Day),
+      daytime_delta_(daytime_delta),
+      current_time_(0) {
     coord_t x_min = static_cast<coord_t>(field_params.x);
     coord_t x_max = static_cast<coord_t>(field_params.x + field_params.w);
     coord_t y_min = static_cast<coord_t>(field_params.y);
@@ -54,8 +60,15 @@ SceneManager::SceneManager(std::size_t number_of_entities, entity::FieldParams f
 }
 
 void SceneManager::GenerateNewIndices() {
+    ++current_time_;
+    if (current_time_ == daytime_delta_) {
+        current_time_ = 0;
+        daytime_ = daytime_ == DayTime::Day ? DayTime::Night : DayTime::Day;
+    }
+
     moving_entities_indices_.clear();
     auto number_of_moving = std::min(entities_.size(), max_number_of_moving_entites_);
+    number_of_moving = daytime_ == DayTime::Day ? number_of_moving : number_of_moving / 10;
     for (int i = 0; i < number_of_moving; ++i) {
         moving_entities_indices_.insert(indices_gen_.Generate());
     }
