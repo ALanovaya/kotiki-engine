@@ -19,7 +19,7 @@ void SceneManager::FixAllCoordinates() {
 }
 
 SceneManager::SceneManager(std::vector<Entity> const& entities, FieldParams field_params,
-                           std::size_t max_number_of_moving_entites, int daytime_delta = 20)
+                           std::size_t max_number_of_moving_entites, int daytime_delta)
     : entities_(entities),
       start_coordinates_(entities.size()),
       max_number_of_moving_entites_(max_number_of_moving_entites),
@@ -34,7 +34,7 @@ SceneManager::SceneManager(std::vector<Entity> const& entities, FieldParams fiel
 }
 
 SceneManager::SceneManager(std::size_t number_of_entities, entity::FieldParams field_params,
-                           std::size_t max_number_of_moving_entites, int daytime_delta = 20)
+                           std::size_t max_number_of_moving_entites, int daytime_delta)
     : entities_(number_of_entities),
       start_coordinates_(number_of_entities),
       max_number_of_moving_entites_(max_number_of_moving_entites),

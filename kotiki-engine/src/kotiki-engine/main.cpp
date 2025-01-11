@@ -40,11 +40,13 @@ int main(int argc, char* argv[]) {
     QRectF border_rect(scene_rect.x() + 30, scene_rect.y() + 40, scene_rect.width() + 150,
                        scene_rect.height() + 100);
     QGraphicsRectItem* border = scene->addRect(border_rect, QPen(QColor(110, 69, 19), 10));
+
     border->setZValue(1);
 
     QPixmap calm_image("assets/textures/pushin.png");
     QPixmap angry_image("assets/textures/angry_pusheen.png");
     QPixmap fighting_image("assets/textures/draka_pusheen.png");
+    QPixmap sleep_image("assets/textures/sleep_pusheen.png");
 
     int const cats_size = 50;
 
@@ -150,7 +152,11 @@ int main(int argc, char* argv[]) {
                             entities_collection.GetEntites()[i].y, set_of_fixed_entities.count(i));
             switch (states[i]) {
                 case entity::EntityState::Calm:
-                    cats[i]->UpdatePixmap(calm_image);
+                    if (entities_collection.GetDayTime() == entity::DayTime::Day) {
+                        cats[i]->UpdatePixmap(calm_image);
+                    } else {
+                        cats[i]->UpdatePixmap(sleep_image);
+                    }
                     break;
                 case entity::EntityState::Angry:
                     cats[i]->UpdatePixmap(angry_image);

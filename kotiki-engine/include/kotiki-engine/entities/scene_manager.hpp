@@ -98,7 +98,7 @@ public:
         return field_params_;
     }
 
-    DayTime GetDateTime() const {
+    DayTime GetDayTime() const {
         return daytime_;
     }
 
