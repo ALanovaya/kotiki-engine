@@ -28,12 +28,9 @@ ResizableGraphicsView::ResizableGraphicsView(QGraphicsScene* scene, QWidget* par
 void ResizableGraphicsView::UpdateNightFilterSize() {
     if (night_filter_) {
         QRectF view_rect = mapToScene(viewport()->rect()).boundingRect();
-        QRectF expanded_rect(
-            view_rect.x() - filter_margin_,
-            view_rect.y() - filter_margin_,
-            view_rect.width() + 2 * filter_margin_,
-            view_rect.height() + 2 * filter_margin_
-        );
+        QRectF expanded_rect(view_rect.x() - filter_margin_, view_rect.y() - filter_margin_,
+                             view_rect.width() + 2 * filter_margin_,
+                             view_rect.height() + 2 * filter_margin_);
         night_filter_->setRect(expanded_rect);
     }
 }
@@ -51,7 +48,7 @@ void ResizableGraphicsView::resizeEvent(QResizeEvent* event) {
     UpdateNightFilterSize();
 }
 
-void ResizableGraphicsView::ShowNightFilter(bool enable)  {
+void ResizableGraphicsView::ShowNightFilter(bool enable) {
     if (night_filter_) {
         UpdateNightFilterSize();
 
@@ -61,7 +58,7 @@ void ResizableGraphicsView::ShowNightFilter(bool enable)  {
             fade_animation_->setDirection(QPropertyAnimation::Forward);
             fade_animation_->start();
 
-            is_night_filter_visible_ = true; 
+            is_night_filter_visible_ = true;
         } else if (!enable && is_night_filter_visible_) {
             fade_animation_->setDirection(QPropertyAnimation::Backward);
             fade_animation_->start();
