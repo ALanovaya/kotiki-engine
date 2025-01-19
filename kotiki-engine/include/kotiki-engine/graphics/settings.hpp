@@ -53,7 +53,7 @@ public:
         metricComboBox_->addItem("Manhattan");
         metricComboBox_->addItem("Chebyshev");
 
-        // Поле ввода для параметра p
+        // Input for p parameter
         p_label_ = new QLabel("Minkowski p:", this);
         pSpinBox_ = new QDoubleSpinBox(this);
         pSpinBox_->setRange(0.0, 10);

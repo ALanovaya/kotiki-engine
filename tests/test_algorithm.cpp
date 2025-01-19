@@ -6,7 +6,7 @@
 #include "kotiki-engine/entities/states.hpp"
 
 namespace {
-FieldParams field_params = {-1000, -1000, 2000, 2000};
+entity::FieldParams field_params = {-1000, -1000, 2000, 2000};
 
 TEST(TestNaive, FightingOnR0Test) {
     auto R0 = 1;
@@ -125,7 +125,7 @@ TEST(TestGridLookup, SingleEntityTest) {
 }
 
 TEST(TestGridLookup, BorderEntitesTest) {
-    FieldParams field_params = {0, 0, 2000, 2000};
+    entity::FieldParams field_params = {0, 0, 2000, 2000};
     auto R0 = 1;
     auto R1 = 10;
     auto algo = algo::GridLookupAlgorithm(R0, R1, std::make_unique<algo::EuclideanMetric>());
@@ -134,7 +134,7 @@ TEST(TestGridLookup, BorderEntitesTest) {
 }
 
 TEST(TestGridLookup, OutOfBorderEntitesTest) {
-    FieldParams field_params = {0, 0, 1000, 1000};
+    entity::FieldParams field_params = {0, 0, 1000, 1000};
     auto R0 = 1;
     auto R1 = 10;
     auto algo = algo::GridLookupAlgorithm(R0, R1, std::make_unique<algo::EuclideanMetric>());

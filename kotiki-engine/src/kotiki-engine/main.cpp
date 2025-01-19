@@ -11,7 +11,6 @@
 #include <qdockwidget.h>
 #include <vector>
 
-#include "kotiki-engine/entities/field.h"
 #include "kotiki-engine/graphics/cats_models.hpp"
 #include "kotiki-engine/graphics/fps_counter.hpp"
 #include "kotiki-engine/graphics/palette.hpp"
@@ -35,22 +34,24 @@ int main(int argc, char* argv[]) {
     main_window.setCentralWidget(view.get());
 
     scene->setSceneRect(0, 0, 3000, 2000);
-    FieldParams field_params = {0, 0, 3000, 2000};
+    entity::FieldParams field_params = {0, 0, 3000, 2000};
 
     QRectF scene_rect = scene->sceneRect();
     QRectF border_rect(scene_rect.x() + 30, scene_rect.y() + 40, scene_rect.width() + 150,
                        scene_rect.height() + 100);
     QGraphicsRectItem* border = scene->addRect(border_rect, QPen(QColor(110, 69, 19), 10));
+
     border->setZValue(1);
 
     QPixmap calm_image("assets/textures/pushin.png");
     QPixmap angry_image("assets/textures/angry_pusheen.png");
     QPixmap fighting_image("assets/textures/draka_pusheen.png");
+    QPixmap sleep_image("assets/textures/sleep_pusheen.png");
 
     int const cats_size = 50;
 
     std::vector<std::unique_ptr<graphics::models::Cats>> cats;
-    entity::SceneManager entities_collection(cats_size, 20, field_params);
+    entity::SceneManager entities_collection(cats_size, field_params, 20);
 
     for (int i = 0; i < entities_collection.GetNumberOfEntities(); ++i) {
         auto cat = std::make_unique<graphics::models::Cats>(calm_image,
@@ -96,7 +97,7 @@ int main(int argc, char* argv[]) {
                      &graphics::widgets::settings::SettingsWidget::SceneDimensionsChanged,
                      [&](int new_width, int new_height) {
                          scene->setSceneRect(0, 0, new_width, new_height);
-                         FieldParams field_params = {0, 0, new_width, new_height};
+                         entity::FieldParams field_params = {0, 0, new_width, new_height};
                          entities_collection.SetFieldParams(field_params);
                          entities_collection.FixateStartCoordinates();
 
@@ -151,7 +152,11 @@ int main(int argc, char* argv[]) {
                             entities_collection.GetEntites()[i].y, set_of_fixed_entities.count(i));
             switch (states[i]) {
                 case entity::EntityState::Calm:
-                    cats[i]->UpdatePixmap(calm_image);
+                    if (entities_collection.GetDayTime() == entity::DayTime::Day) {
+                        cats[i]->UpdatePixmap(calm_image);
+                    } else {
+                        cats[i]->UpdatePixmap(sleep_image);
+                    }
                     break;
                 case entity::EntityState::Angry:
                     cats[i]->UpdatePixmap(angry_image);
@@ -162,6 +167,14 @@ int main(int argc, char* argv[]) {
             }
         }
         fps_label->setText(QString("FPS: %1").arg(fps_counter.GetCurrentFps()));
+    });
+
+    QObject::connect(&update_timer, &QTimer::timeout, [&]() {
+        if (entities_collection.GetDayTime() == entity::DayTime::Night) {
+            view->ShowNightFilter(true);
+        } else {
+            view->ShowNightFilter(false);
+        }
     });
 
     bool is_tau_set = false;

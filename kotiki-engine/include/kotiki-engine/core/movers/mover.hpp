@@ -7,7 +7,7 @@ class Mover {
 protected:
     virtual void MoveInternal(entity::SceneManager& scene) = 0;
 
-    static bool FixCoordinates(entity::Entity& entity, FieldParams& field_params);
+    static bool FixCoordinates(entity::Entity& entity, entity::FieldParams& field_params);
 
 public:
     virtual void Move(entity::SceneManager& scene) {
