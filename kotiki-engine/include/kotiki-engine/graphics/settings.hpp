@@ -24,10 +24,12 @@ class SettingsWidget : public QDockWidget {
     Q_OBJECT
 
 public:
+    // Constructor with simulation configuration parameters
     SettingsWidget(QWidget* parent, int cats_count, int width, int height, int max_moving_cats,
                    coord_t R0 = 200.0, coord_t R1 = 500.0);
 
 signals:
+    // Signals to notify parameter changes
     void NumberOfCatsChanged(int new_count);
     void SceneDimensionsChanged(int new_width, int new_height);
     void MetricChanged(std::unique_ptr<algo::Metric>& new_metric);
@@ -38,72 +40,44 @@ signals:
     void MoverChanged(std::unique_ptr<mover::Mover>& new_mover);
 
 private slots:
-
-    void OnApply() {
-        emit NumberOfCatsChanged(spinBox_->value());
-        emit SceneDimensionsChanged(width_spinBox_->value(), height_spinBox_->value());
-        emit R0Changed(R0_spinBox_->value());
-        emit R1Changed(R1_spinBox_->value());
-        emit MaxMovingCatsChanged(max_moving_cats_spinBox_->value());
-        emit TauChanged(tau_spinBox_->value());
-
-        std::unique_ptr<algo::Metric> new_metric;
-        switch (metricComboBox_->currentIndex()) {
-            case 0:  // Euclidean
-                new_metric = std::make_unique<algo::EuclideanMetric>();
-                break;
-            case 1:  // Minkowski
-                new_metric = std::make_unique<algo::MinkowskiMetric>(pSpinBox_->value());
-                break;
-            case 2:  // Manhattan
-                new_metric = std::make_unique<algo::ManhattanMetric>();
-                break;
-            case 3:  // Chebyshev
-                new_metric = std::make_unique<algo::ChebyshevMetric>();
-                break;
-        }
-        emit MetricChanged(new_metric);
-
-        std::unique_ptr<mover::Mover> new_mover;
-        if (moverComboBox_->currentIndex() == 0) {  // Random
-            new_mover = std::make_unique<mover::RandomMover>(min_step_spinBox_->value(),
-                                                             max_step_spinBox_->value());
-        } else {  // Trajectory
-            std::string x_expression = x_expression_edit_->text().toStdString();
-            std::string y_expression = y_expression_edit_->text().toStdString();
-
-            if (x_expression.empty() || y_expression.empty()) {
-                QMessageBox::warning(this, "Input Error", "Expression is invalid.");
-                return;
-            }
-
-            try {
-                new_mover = std::make_unique<mover::TrajectoryMover>(
-                        x_expression, y_expression, tau_spinBox_->value() / 1000.0);
-            } catch (std::exception const& e) {
-                QMessageBox::warning(this, "Input Error", e.what());
-                return;
-            }
-        }
-        emit MoverChanged(new_mover);
-    }
+    void OnApply();
 
 private:
+    // UI elements for simulation configuration
+    // Number of cats in the simulation
     QSpinBox* spinBox_;
+
+    // Width and height of the simulation scene
     QSpinBox* width_spinBox_;
     QSpinBox* height_spinBox_;
+
+    // Dropdown for selecting metric calculation method
     QComboBox* metricComboBox_;
+
+    // Probability-related spin box and label
     QDoubleSpinBox* pSpinBox_;
     QLabel* p_label_;
+
+    // Radius parameters for simulation angriness of cats
     QDoubleSpinBox* R0_spinBox_;
     QDoubleSpinBox* R1_spinBox_;
+
+    // Maximum number of moving cats and time step
     QSpinBox* max_moving_cats_spinBox_;
     QSpinBox* tau_spinBox_;
+
+    // Dropdown for selecting movement algorithm
     QComboBox* moverComboBox_;
+
+    // Step size range for movement
     QSpinBox* min_step_spinBox_;
     QSpinBox* max_step_spinBox_;
+
+    // Custom movement expressions for x and y coordinates
     QLineEdit* x_expression_edit_;
     QLineEdit* y_expression_edit_;
+
+    // Labels for step size and expression inputs
     QLabel* min_step_label_;
     QLabel* max_step_label_;
     QLabel* x_expression_label_;
