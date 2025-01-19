@@ -169,6 +169,14 @@ int main(int argc, char* argv[]) {
         fps_label->setText(QString("FPS: %1").arg(fps_counter.GetCurrentFps()));
     });
 
+    QObject::connect(&update_timer, &QTimer::timeout, [&]() {
+        if (entities_collection.GetDayTime() == entity::DayTime::Night) {
+            view->ShowNightFilter(true);
+        } else {
+            view->ShowNightFilter(false);
+        }
+    });
+
     bool is_tau_set = false;
 
     if (!is_tau_set) {
