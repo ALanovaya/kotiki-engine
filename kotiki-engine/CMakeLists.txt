@@ -25,6 +25,8 @@ set(SRC_FILES
     ${TARGET_SOURCE_DIR}/kotiki-engine/utils/random.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/entities/scene_manager.cpp
     ${TARGET_SOURCE_DIR}/kotiki-engine/graphics/palette.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/graphics/settings.cpp
+    ${TARGET_SOURCE_DIR}/kotiki-engine/graphics/main_window.cpp
 )
 
 set(INCLUDE_FILES
@@ -32,6 +34,7 @@ set(INCLUDE_FILES
     ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/view.hpp
     ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/palette.hpp
     ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/settings.hpp
+    ${TARGET_INCLUDE_DIR}/kotiki-engine/graphics/main_window.hpp
 )
 
 #####################################
