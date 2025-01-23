@@ -16,6 +16,8 @@ RandomMover::RandomMover(coord_t min_step, coord_t max_step) : gen_(min_step, ma
 void RandomMover::MoveInternal(entity::SceneManager& scene) {
     for (auto index : scene.GetIndices()) {
         auto& entity = scene.GetEntites()[index];
+
+        // Generate signs of coordinate deltas
         int x_sign = util::generate_uniform_real() > 0.5 ? 1 : -1;
         int y_sign = util::generate_uniform_real() > 0.5 ? 1 : -1;
 

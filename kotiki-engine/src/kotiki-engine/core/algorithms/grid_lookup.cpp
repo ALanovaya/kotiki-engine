@@ -5,6 +5,8 @@
 namespace algo {
 std::vector<entity::EntityState> GridLookupAlgorithm::GetStates(entity::SceneManager const& scene) {
     std::vector<entity::EntityState> states(scene.GetNumberOfEntities(), entity::EntityState::Calm);
+
+    // Step 1. Initialize grid cells
     int cell_count_x =
             static_cast<int>(std::floor(static_cast<coord_t>(scene.GetFieldParams().w) / R1_)) + 1;
     int cell_count_y =
@@ -26,11 +28,16 @@ std::vector<entity::EntityState> GridLookupAlgorithm::GetStates(entity::SceneMan
         grid_[cell_x * cell_count_y + cell_y].push_back(i);
     }
 
+    // Step 2. Calculate states of entities using previously initialized grid
+    // Only moved entities are being processed
     for (auto index : scene.GetIndices()) {
         auto const& entity = entities_vector[index];
+
+        // Cell coordinates of current entity
         int cell_x = static_cast<int>(std::floor((entity.x - field_params.x) / R1_));
         int cell_y = static_cast<int>(std::floor((entity.y - field_params.y) / R1_));
 
+        // Find neigbours in adjacent cells
         for (int offset_x = -1; offset_x < 2; ++offset_x) {
             if (cell_x + offset_x < 0 || cell_x + offset_x >= cell_count_x) {
                 continue;
@@ -47,10 +54,12 @@ std::vector<entity::EntityState> GridLookupAlgorithm::GetStates(entity::SceneMan
                     }
                     auto const& neigh_entitiy = entities_vector[neigh_index];
                     auto dist = metric_->Calculate(entity, neigh_entitiy);
-                    if (dist <= R0_) {
+
+                    if (dist <= R0_) {  // Check if fighting
                         states[index] = entity::EntityState::Fighting;
                         states[neigh_index] = entity::EntityState::Fighting;
-                    } else if (dist <= R1_) {
+
+                    } else if (dist <= R1_) {  // Check if angry
                         if (states[index] != entity::EntityState::Fighting &&
                             util::generate_uniform_real() <= 1.0 / dist) {
                             states[index] = entity::EntityState::Angry;
