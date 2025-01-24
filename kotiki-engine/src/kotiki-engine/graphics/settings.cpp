@@ -99,6 +99,11 @@ SettingsWidget::SettingsWidget(QWidget* parent, int cats_count, int width, int h
     y_expression_label_->setVisible(false);
     y_expression_edit_->setVisible(false);
 
+    // Logging cats movement
+    logging_label_ = new QLabel("Enable Logging:", this);
+    loggingRadioButton_ = new QRadioButton("Log Cats Movement", this);
+    loggingRadioButton_->setChecked(false);
+
     // Apply button
     QPushButton* apply_button = new QPushButton("Apply", this);
 
@@ -131,12 +136,17 @@ SettingsWidget::SettingsWidget(QWidget* parent, int cats_count, int width, int h
     layout->addWidget(x_expression_edit_);
     layout->addWidget(y_expression_label_);
     layout->addWidget(y_expression_edit_);
+    layout->addWidget(logging_label_);
+    layout->addWidget(loggingRadioButton_);
 
     layout->addWidget(apply_button);
     setWidget(widget);
 
     // Connect apply button
     connect(apply_button, &QPushButton::clicked, this, &SettingsWidget::OnApply);
+
+    // Logging cats movement handler
+    connect(loggingRadioButton_, &QRadioButton::toggled, this, &SettingsWidget::LoggingToggled);
 
     // Metric selection handler
     connect(metricComboBox_, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]() {

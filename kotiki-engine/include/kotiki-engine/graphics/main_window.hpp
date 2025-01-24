@@ -56,12 +56,15 @@ private slots:
 
     void OnTauChanged(int new_tau);
 
+    void OnLoggingToggled(bool enabled);
+
     // Timer update slots
     void OnUpdateTimer();  // Handles graphical updates (FPS, positions)
 
     void OnPointTimer();  // Handles game logic updates (movement, states)
 
 private:
+    uint64_t iterations_ = 0;
     std::unique_ptr<QGraphicsScene> scene_;
     std::unique_ptr<graphics::ResizableGraphicsView> view_;
     QGraphicsRectItem* border_;  // Scene boundary rectangle
@@ -87,5 +90,7 @@ private:
 
     QTimer point_timer_;   // Timer for game logic updates
     QTimer update_timer_;  // Timer for graphical updates
+
+    bool logging_enabled_ = false; // Flag for logging
 };
 }  // namespace graphics
