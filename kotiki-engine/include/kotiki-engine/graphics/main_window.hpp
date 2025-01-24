@@ -62,6 +62,7 @@ private slots:
     void OnPointTimer();  // Handles game logic updates (movement, states)
 
 private:
+    uint64_t iterations_ = 0;
     std::unique_ptr<QGraphicsScene> scene_;
     std::unique_ptr<graphics::ResizableGraphicsView> view_;
     QGraphicsRectItem* border_;  // Scene boundary rectangle

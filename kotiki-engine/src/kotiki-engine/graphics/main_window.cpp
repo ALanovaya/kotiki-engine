@@ -1,4 +1,7 @@
 #include "kotiki-engine/graphics/main_window.hpp"
+#include <algorithm>
+#include <string>
+#include "iostream"
 
 namespace graphics {
 // Main window constructor: Initializes entire scene, entities, and core functionality
@@ -203,11 +206,41 @@ void MainWindow::OnUpdateTimer() {
     fps_label_->setText(QString("FPS: %1").arg(fps_counter_->GetCurrentFps()));
 }
 
+void LogCoordinates(std::vector<entity::EntityState> states, std::unique_ptr<entity::SceneManager> &entities_collection_, uint64_t iterations) {
+
+    std::cout << "\nIteration #" << iterations << "\n";
+    if (entities_collection_->GetDayTime() == entity::DayTime::Night) {
+        std::cout << "Night !\n";
+    }
+    if (entities_collection_->GetIndices().empty()) {
+        return;
+    }
+    for (auto idx : entities_collection_->GetIndices()) {
+        std::string state;
+        switch (states[idx]) {
+            case entity::EntityState::Calm:
+                state = "calm";
+                break;
+            case entity::EntityState::Angry:
+                state = "angry";
+                break;
+            case entity::EntityState::Fighting:
+                state = "fighting";
+                break;
+        }
+        auto coordinates = "(" + std::to_string(entities_collection_->GetEntites()[idx].x) + ", " + std::to_string(entities_collection_->GetEntites()[idx].y) + ")";
+        auto log_string = "Cat №" + std::to_string(idx) + " moved to " +  coordinates + " and has state " + state + "\n";
+        std::cout << log_string;
+    }
+}
+
 void MainWindow::OnPointTimer() {
     // Complex logic for cat movement and state updates
+    iterations_++;
     current_mover_->Move(*entities_collection_);
     auto set_of_fixed_entities = current_mover_->FixEntityCoordinates(*entities_collection_);
     auto states = grid_lookup_->GetStates(*entities_collection_);
+    LogCoordinates(states, entities_collection_, iterations_);
 
     // Detailed state and image management for each cat
     for (int i = 0; i < entities_collection_->GetNumberOfEntities(); ++i) {
