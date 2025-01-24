@@ -8,6 +8,8 @@
 #include "kotiki-engine/utils/random.hpp"
 
 namespace entity {
+
+// Struct to describe size parameters of scene
 struct FieldParams {
     int x;
     int y;
@@ -15,34 +17,56 @@ struct FieldParams {
     int h;
 };
 
+// Enum for manipulation with day and night change
 enum class DayTime : char { Day = 0, Night };
 
+// SceneManager class to manage events on scene
 class SceneManager {
 private:
-    std::vector<Entity> entities_;
-    std::vector<std::pair<coord_t, coord_t>> start_coordinates_;
-    std::size_t max_number_of_moving_entites_;
-    std::set<std::size_t> moving_entities_indices_;
+    std::vector<Entity> entities_;  // Vector of entities on scene
+    std::vector<std::pair<coord_t, coord_t>>
+            start_coordinates_;                 // Starting coordinates of entities
+    std::size_t max_number_of_moving_entites_;  // Maximal number of simultanious moving entities
+    std::set<std::size_t> moving_entities_indices_;  // Indices of currently moving entities
 
-    FieldParams field_params_;
-    DayTime daytime_;
-    int daytime_delta_;  // To determinate how often daytime gonna change
-    int current_time_;
+    FieldParams field_params_;  // Scene size parameters
+    DayTime daytime_;           // Current daytime
+    int daytime_delta_;         // To determinate how often daytime gonna change
+    int current_time_;          // Current step from application start
 
-    util::RandomIntGenerator<std::size_t> indices_gen_;
+    util::RandomIntGenerator<std::size_t> indices_gen_;  // Moving entities indices generator
 
+    /**
+     * Fixes coordinates of all entities on a scene
+     */
     void FixAllCoordinates();
 
 public:
+    /**
+     * Scene Manager constructor
+     *
+     * @param entities Vector of entities
+     * @param field_params Size parameters of scene
+     * @param max_number_of_moving_entities Maximal number of moving entities
+     * @param daytime_delta Daytime delta to determinate how often daytime is gonna change
+     */
     SceneManager(std::vector<Entity> const& entities, FieldParams field_params,
                  std::size_t max_number_of_moving_entites = 250, int daytime_delta = 20);
-
+    /**
+     * Scene Manager constructor
+     * Generate entities randomly
+     *
+     * @param number_of_entities Number of entities
+     * @param field_params Size parameters of scene
+     * @param max_number_of_moving_entities Maximal number of moving entities
+     * @param daytime_delta Daytime delta to determinate how often daytime is gonna change
+     */
     SceneManager(std::size_t number_of_entities, FieldParams field_params,
                  std::size_t max_number_of_moving_entites = 250, int daytime_delta = 20);
 
-    SceneManager(SceneManager const&) = default;
-    SceneManager(SceneManager&&) = default;
-
+    /**
+     * Generates new indices of moving entities
+     */
     void GenerateNewIndices();
 
     std::vector<Entity>& GetEntites() {
@@ -69,6 +93,10 @@ public:
         return start_coordinates_;
     }
 
+    /**
+     * Fixate starting coordinates
+     * Makes starting coordinates equal to current entities coordinates
+     */
     void FixateStartCoordinates() {
         std::transform(
                 entities_.begin(), entities_.end(), start_coordinates_.begin(),

@@ -4,6 +4,7 @@
 
 namespace util {
 
+// Template base class of random generator
 template <typename T>
 class RandomGenerator {
 protected:
@@ -16,15 +17,16 @@ protected:
 public:
     RandomGenerator(T min, T max) : rd_(), gen_(rd_()), min_(min), max_(max) {};
 
-    RandomGenerator(RandomGenerator<T> const&) = default;
-    RandomGenerator(RandomGenerator<T>&&) = default;
-
+    /**
+     * Generates random number in range [this->min_, this->max_]
+     */
     virtual T Generate() = 0;
     virtual void SetMin(T min) = 0;
     virtual void SetMax(T min) = 0;
     virtual void SetMinMax(T min, T max) = 0;
 };
 
+// Template base class of random real generator
 template <typename T>
 class RandomRealGenerator : public RandomGenerator<T> {
 private:
@@ -33,9 +35,9 @@ private:
 public:
     RandomRealGenerator(T min, T max) : RandomGenerator<T>(min, max), distr_(min, max) {}
 
-    RandomRealGenerator(RandomRealGenerator<T> const&) = default;
-    RandomRealGenerator(RandomRealGenerator<T>&&) = default;
-
+    /**
+     * Generates random real number in range [this->min_, this->max_]
+     */
     T Generate() override final {
         return distr_(this->gen_);
     }
@@ -57,6 +59,7 @@ public:
     };
 };
 
+// Template base class of random integer generator
 template <typename T>
 class RandomIntGenerator : public RandomGenerator<T> {
 private:
@@ -65,9 +68,9 @@ private:
 public:
     RandomIntGenerator(T min, T max) : RandomGenerator<T>(min, max), distr_(min, max) {}
 
-    RandomIntGenerator(RandomIntGenerator<T> const&) = default;
-    RandomIntGenerator(RandomIntGenerator<T>&&) = default;
-
+    /**
+     * Generates random integer number in range [this->min_, this->max_]
+     */
     T Generate() override final {
         return distr_(this->gen_);
     }
@@ -89,5 +92,8 @@ public:
     };
 };
 
+/**
+ * Generates real number in range [0, 1]
+ */
 double generate_uniform_real();
 }  // namespace util
