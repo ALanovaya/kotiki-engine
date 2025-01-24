@@ -40,6 +40,8 @@ Follow these steps to install and run Kotiki Engine:
 - User can choose how the cats will move - either randomly or along a trajectory that can be specified by a parametric equation. The user must specify a parameter (let's say t) and describe the equations x(t), y(t). Otherwise, the trajectory will not be recognized.
 - To determine the state of the cats, a grid lookup algorithm is used.
 - It is possible to flexibly control the space and movement of the goths - change the size of the scene on which cats walk, change the step at which cats can move, and others.
+- Cat activity and state (coordinates and actions) can be logged to the console, with logging toggled via a button.
+- A day-night cycle affects cat behavior: at night, most cats sleep or become less active, while some may sleepwalk.
 
 ## Example
 An example of what the scene and panel with parameters look like.
@@ -49,4 +51,5 @@ An example of what the scene and panel with parameters look like.
 
 - Alexandra Lanovaya (Telegram: @winxpopp)
 - Ilya Syresenkov (Telegram: @maybenotilya)
-- Rafik Nurmukhametov (Telegram: @nrrafik)_
+- Rafik Nurmukhametov (Telegram: @nrrafik)
+- Alexander Lekomtcev (Telegram: @al_lekomtsev)
