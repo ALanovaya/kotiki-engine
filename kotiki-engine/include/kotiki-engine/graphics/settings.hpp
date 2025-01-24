@@ -13,7 +13,9 @@
 #include <QPushButton>
 #include <QSpinBox>
 #include <QVBoxLayout>
+#include <QRadioButton>
 #include <kotiki-engine/utils/types.h>
+#include <qlabel.h>
 
 #include "kotiki-engine/core/algorithms/algorithms.hpp"
 #include "kotiki-engine/core/metrics/metrics.hpp"
@@ -38,6 +40,7 @@ signals:
     void MaxMovingCatsChanged(int new_max_moving_cats);
     void TauChanged(int new_tau);
     void MoverChanged(std::unique_ptr<mover::Mover>& new_mover);
+    void LoggingToggled(bool enabled);
 
 private slots:
     void OnApply();
@@ -82,5 +85,9 @@ private:
     QLabel* max_step_label_;
     QLabel* x_expression_label_;
     QLabel* y_expression_label_;
+
+    // Label and button for logging
+    QLabel* logging_label_;
+    QRadioButton* loggingRadioButton_;
 };
 }  // namespace graphics::widgets::settings

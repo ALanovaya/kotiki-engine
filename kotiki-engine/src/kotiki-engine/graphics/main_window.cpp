@@ -1,6 +1,8 @@
 #include "kotiki-engine/graphics/main_window.hpp"
+
 #include <algorithm>
 #include <string>
+
 #include "iostream"
 
 namespace graphics {
@@ -143,6 +145,10 @@ void MainWindow::ConnectSignals() {
     // Connect timers to update handlers
     connect(&update_timer_, &QTimer::timeout, this, &MainWindow::OnUpdateTimer);
     connect(&point_timer_, &QTimer::timeout, this, &MainWindow::OnPointTimer);
+
+    // Connect button to logging
+    connect(settings_widget_, &graphics::widgets::settings::SettingsWidget::LoggingToggled, this,
+            &MainWindow::OnLoggingToggled);
 }
 
 // Handler for changing number of cats
@@ -194,6 +200,11 @@ void MainWindow::OnTauChanged(int new_tau) {
     point_timer_.setInterval(new_tau);
 }
 
+// Handler for toggling logging
+void MainWindow::OnLoggingToggled(bool enabled) {
+    logging_enabled_ = enabled;
+}
+
 // Handler for update timer
 void MainWindow::OnUpdateTimer() {
     // Update positions of all cats
@@ -206,8 +217,9 @@ void MainWindow::OnUpdateTimer() {
     fps_label_->setText(QString("FPS: %1").arg(fps_counter_->GetCurrentFps()));
 }
 
-void LogCoordinates(std::vector<entity::EntityState> states, std::unique_ptr<entity::SceneManager> &entities_collection_, uint64_t iterations) {
-
+void LogCoordinates(std::vector<entity::EntityState> states,
+                    std::unique_ptr<entity::SceneManager>& entities_collection_,
+                    uint64_t iterations) {
     std::cout << "\nIteration #" << iterations << "\n";
     if (entities_collection_->GetDayTime() == entity::DayTime::Night) {
         std::cout << "Night !\n";
@@ -228,8 +240,10 @@ void LogCoordinates(std::vector<entity::EntityState> states, std::unique_ptr<ent
                 state = "fighting";
                 break;
         }
-        auto coordinates = "(" + std::to_string(entities_collection_->GetEntites()[idx].x) + ", " + std::to_string(entities_collection_->GetEntites()[idx].y) + ")";
-        auto log_string = "Cat №" + std::to_string(idx) + " moved to " +  coordinates + " and has state " + state + "\n";
+        auto coordinates = "(" + std::to_string(entities_collection_->GetEntites()[idx].x) + ", " +
+                           std::to_string(entities_collection_->GetEntites()[idx].y) + ")";
+        auto log_string = "Cat №" + std::to_string(idx) + " moved to " + coordinates +
+                          " and has state " + state + "\n";
         std::cout << log_string;
     }
 }
@@ -240,7 +254,10 @@ void MainWindow::OnPointTimer() {
     current_mover_->Move(*entities_collection_);
     auto set_of_fixed_entities = current_mover_->FixEntityCoordinates(*entities_collection_);
     auto states = grid_lookup_->GetStates(*entities_collection_);
-    LogCoordinates(states, entities_collection_, iterations_);
+
+    if (logging_enabled_) {
+        LogCoordinates(states, entities_collection_, iterations_);
+    }
 
     // Detailed state and image management for each cat
     for (int i = 0; i < entities_collection_->GetNumberOfEntities(); ++i) {

@@ -56,6 +56,8 @@ private slots:
 
     void OnTauChanged(int new_tau);
 
+    void OnLoggingToggled(bool enabled);
+
     // Timer update slots
     void OnUpdateTimer();  // Handles graphical updates (FPS, positions)
 
@@ -88,5 +90,7 @@ private:
 
     QTimer point_timer_;   // Timer for game logic updates
     QTimer update_timer_;  // Timer for graphical updates
+
+    bool logging_enabled_ = false; // Flag for logging
 };
 }  // namespace graphics
