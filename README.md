@@ -45,7 +45,8 @@ Follow these steps to install and run Kotiki Engine:
 
 ## Example
 An example of what the scene and panel with parameters look like.
-![Scene and panel example](assets/doc/example.png)
+![Day-scene and panel example](assets/doc/day_example.png)
+![Night-scene and panel example](assets/doc/night_example.png)
 
 ## Authors
 
