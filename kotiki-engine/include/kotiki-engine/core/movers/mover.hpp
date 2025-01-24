@@ -1,20 +1,45 @@
 #pragma once
 
-#include "kotiki-engine/entities/entities_collection.hpp"
+#include "kotiki-engine/entities/scene_manager.hpp"
 
 namespace mover {
+
+// Base Mover class
 class Mover {
 protected:
-    virtual void MoveInternal(entity::EntitiesCollection& entities) = 0;
+    /**
+     * Moves entities according to mover rules
+     *
+     * @param scene Current scene
+     */
+    virtual void MoveInternal(entity::SceneManager& scene) = 0;
 
-    static bool FixCoordinates(entity::Entity& entity, FieldParams& field_params);
+    /**
+     * Fix entity coordinates to fit into scene
+     *
+     * @param entity Entity on a scene
+     * @param field_params Parameters of a scene
+     * @return True if coordinates were changed, false overwise
+     */
+    static bool FixCoordinates(entity::Entity& entity, entity::FieldParams& field_params);
 
 public:
-    virtual void Move(entity::EntitiesCollection& entities) {
-        entities.GenerateNewIndices();
-        MoveInternal(entities);
+    /**
+     * Moves entities on a scene with generating new moving indices each time
+     *
+     * @param scene Current scene
+     */
+    virtual void Move(entity::SceneManager& scene) {
+        scene.GenerateNewIndices();
+        MoveInternal(scene);
     };
 
-    static std::set<int> FixEntityCoordinates(entity::EntitiesCollection& entities);
+    /**
+     * Fix coordinates of all entities on a scene according to mover rules
+     *
+     * @param scene Current scene
+     * @return Set of indices of entities with fixed coordinates
+     */
+    static std::set<int> FixEntityCoordinates(entity::SceneManager& scene);
 };
 }  // namespace mover

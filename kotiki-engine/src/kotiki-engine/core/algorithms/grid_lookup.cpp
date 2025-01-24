@@ -3,22 +3,18 @@
 #include <stdexcept>
 
 namespace algo {
-std::vector<entity::EntityState> GridLookupAlgorithm::GetStates(
-        entity::EntitiesCollection const& entities) {
-    std::vector<entity::EntityState> states(entities.GetNumberOfEntities(),
-                                            entity::EntityState::Calm);
+std::vector<entity::EntityState> GridLookupAlgorithm::GetStates(entity::SceneManager const& scene) {
+    std::vector<entity::EntityState> states(scene.GetNumberOfEntities(), entity::EntityState::Calm);
     int cell_count_x =
-            static_cast<int>(std::floor(static_cast<coord_t>(entities.GetFieldParams().w) / R1_)) +
-            1;
+            static_cast<int>(std::floor(static_cast<coord_t>(scene.GetFieldParams().w) / R1_)) + 1;
     int cell_count_y =
-            static_cast<int>(std::floor(static_cast<coord_t>(entities.GetFieldParams().h) / R1_)) +
-            1;
+            static_cast<int>(std::floor(static_cast<coord_t>(scene.GetFieldParams().h) / R1_)) + 1;
 
     grid_ = std::vector<std::vector<int>>(cell_count_x * cell_count_y, std::vector<int>(0));
-    auto const& field_params = entities.GetFieldParams();
-    auto const& entities_vector = entities.GetEntites();
+    auto const& field_params = scene.GetFieldParams();
+    auto const& entities_vector = scene.GetEntites();
 
-    for (int i = 0; i < entities.GetNumberOfEntities(); ++i) {
+    for (int i = 0; i < scene.GetNumberOfEntities(); ++i) {
         auto const& entity = entities_vector[i];
         if (entity.x < field_params.x || entity.x > field_params.x + field_params.w ||
             entity.y < field_params.y || entity.y > field_params.y + field_params.h) {
@@ -30,7 +26,7 @@ std::vector<entity::EntityState> GridLookupAlgorithm::GetStates(
         grid_[cell_x * cell_count_y + cell_y].push_back(i);
     }
 
-    for (auto index : entities.GetIndices()) {
+    for (auto index : scene.GetIndices()) {
         auto const& entity = entities_vector[index];
         int cell_x = static_cast<int>(std::floor((entity.x - field_params.x) / R1_));
         int cell_y = static_cast<int>(std::floor((entity.y - field_params.y) / R1_));

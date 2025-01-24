@@ -4,6 +4,9 @@
 #include "kotiki-engine/entities/entity.hpp"
 
 namespace algo {
+
+// Chebyshev distance metric class
+// https://en.wikipedia.org/wiki/Chebyshev_distance
 class ChebyshevMetric : public Metric {
 public:
     ChebyshevMetric() = default;

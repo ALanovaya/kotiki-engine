@@ -6,16 +6,25 @@
 #include "kotiki-engine/utils/random.hpp"
 
 namespace mover {
+
+// Random mover class
+// Moves entities randomly across scene
 class RandomMover : public Mover {
 private:
-    coord_t min_step_;
-    coord_t max_step_;
+    coord_t min_step_;  // Minimal move of entity
+    coord_t max_step_;  // Maximal move of entity
 
-    util::RandomRealGenerator<coord_t> gen_;
+    util::RandomRealGenerator<coord_t> gen_;  // Random uniform real generator
 
-    void MoveInternal(entity::EntitiesCollection& entities);
+    void MoveInternal(entity::SceneManager& scene);
 
 public:
+    /**
+     * Random Mover constructor
+     *
+     * @param min_step Minimal move of entity
+     * @param max_step Maximal move of entity
+     */
     RandomMover(coord_t min_step, coord_t max_step);
 
     void SetMinStep(coord_t min_step) {

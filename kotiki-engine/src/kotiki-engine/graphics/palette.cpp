@@ -1,6 +1,7 @@
 #include "kotiki-engine/graphics/palette.hpp"
 
 namespace graphics::theme {
+// Set dark palette for userinterface and window
 void SetPalette(QApplication& app) {
     QPalette dark_palette;
     dark_palette.setColor(QPalette::Window, QColor(53, 53, 53));
