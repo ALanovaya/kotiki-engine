@@ -15,6 +15,6 @@ public:
     coord_t Calculate(entity::Entity first, entity::Entity second) override;
 
 private:
-    double p_;
+    double p_;  // Parameter of Minkowski metric
 };
 }  // namespace algo

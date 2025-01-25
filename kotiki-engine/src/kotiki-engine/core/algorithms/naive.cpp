@@ -12,15 +12,7 @@ std::vector<entity::EntityState> NaiveAlgorithm::GetStates(entity::SceneManager 
             if (i == j) {
                 continue;
             }
-            auto dist = metric_->Calculate(entities_vector[i], entities_vector[j]);
-            if (dist <= R0_) {
-                states[i] = entity::EntityState::Fighting;
-            } else if (dist <= R1_) {
-                if (states[i] != entity::EntityState::Fighting &&
-                    util::generate_uniform_real() <= 1.0 / dist) {
-                    states[i] = entity::EntityState::Angry;
-                }
-            }
+            UpdateStates(entities_vector, states, i, j);
         }
     }
 

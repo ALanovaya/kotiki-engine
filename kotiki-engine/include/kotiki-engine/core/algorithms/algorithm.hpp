@@ -17,6 +17,17 @@ protected:
     coord_t R1_;  // Distance threshold for angry state
     std::unique_ptr<Metric> metric_;
 
+    /**
+     * Updates states of two entities during algorithm processing
+     *
+     * @param entities Vector of entities
+     * @param states Vector of states, passed by mutable reference
+     * @param i Index of first entity
+     * @param j Index of second entity
+     */
+    void UpdateStates(std::vector<entity::Entity> const& entities,
+                      std::vector<entity::EntityState>& states, std::size_t i, std::size_t j);
+
 public:
     Algorithm(coord_t R0, coord_t R1, std::unique_ptr<Metric>&& metric)
         : R0_(R0), R1_(R1), metric_(std::move(metric)) {}
@@ -29,7 +40,7 @@ public:
      */
     virtual std::vector<entity::EntityState> GetStates(entity::SceneManager const& scene) = 0;
 
-        virtual void SetR0(coord_t R0) {
+    virtual void SetR0(coord_t R0) {
         R0_ = R0;
     }
 
