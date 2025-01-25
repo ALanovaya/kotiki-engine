@@ -2,6 +2,9 @@
 
 **Kotiki Engine** is an educational project for the "Computer Graphics" course. It simulates and illustrates the behavior of cats on a 2D plane.
 
+![Day-scene and panel example](assets/doc/day_example.png)
+![Night-scene and panel example](assets/doc/night_example.png)
+
 ## Installation (Ubuntu)
 
 Follow these steps to install and run Kotiki Engine:
@@ -42,11 +45,6 @@ Follow these steps to install and run Kotiki Engine:
 - It is possible to flexibly control the space and movement of the goths - change the size of the scene on which cats walk, change the step at which cats can move, and others.
 - Cat activity and state (coordinates and actions) can be logged to the console, with logging toggled via a button.
 - A day-night cycle affects cat behavior: at night, most cats sleep or become less active, while some may sleepwalk.
-
-## Example
-An example of what the scene and panel with parameters look like.
-![Day-scene and panel example](assets/doc/day_example.png)
-![Night-scene and panel example](assets/doc/night_example.png)
 
 ## Authors
 
