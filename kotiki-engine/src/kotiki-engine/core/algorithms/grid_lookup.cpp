@@ -52,23 +52,7 @@ std::vector<entity::EntityState> GridLookupAlgorithm::GetStates(entity::SceneMan
                     if (neigh_index == index) {
                         continue;
                     }
-                    auto const& neigh_entitiy = entities_vector[neigh_index];
-                    auto dist = metric_->Calculate(entity, neigh_entitiy);
-
-                    if (dist <= R0_) {  // Check if fighting
-                        states[index] = entity::EntityState::Fighting;
-                        states[neigh_index] = entity::EntityState::Fighting;
-
-                    } else if (dist <= R1_) {  // Check if angry
-                        if (states[index] != entity::EntityState::Fighting &&
-                            util::generate_uniform_real() <= 1.0 / dist) {
-                            states[index] = entity::EntityState::Angry;
-                        }
-                        if (states[neigh_index] != entity::EntityState::Fighting &&
-                            util::generate_uniform_real() <= 1.0 / dist) {
-                            states[neigh_index] = entity::EntityState::Angry;
-                        }
-                    }
+                    UpdateStates(entities_vector, states, index, neigh_index);
                 }
             }
         }
