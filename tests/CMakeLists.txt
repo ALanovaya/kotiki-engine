@@ -10,6 +10,7 @@ set(KOTIKI_SOURCE_DIR ${PROJECT_SOURCE_DIR}/kotiki-engine/src)
 
 set(PROJECT_SRC_FILES
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/trajectory/trajectory.cpp
+    ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/algorithms/algorithm.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/algorithms/grid_lookup.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/algorithms/naive.cpp
     ${KOTIKI_SOURCE_DIR}/kotiki-engine/core/metrics/minkowski.cpp

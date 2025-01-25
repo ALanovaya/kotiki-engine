@@ -17,6 +17,12 @@ private:
     matheval::Parser y_parser_;  // Parser for y expression
     std::string time_var_;       // Time variable
 
+    /**
+     * Check if expression contains only time variable
+     * @param parser Expression parser
+     * @param time_var Time variable
+     * @throw `std::invalid_argument` if expression contains forbidden variables
+     */
     void ValidateExpression(matheval::Parser& parser, std::string const& time_var) const;
 
 public:

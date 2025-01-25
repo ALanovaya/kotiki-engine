@@ -61,6 +61,8 @@ SceneManager::SceneManager(std::size_t number_of_entities, entity::FieldParams f
 
 void SceneManager::GenerateNewIndices() {
     ++current_time_;
+
+    // Daytime is being updated upon every GenerateNewIndices call
     if (current_time_ == daytime_delta_) {
         current_time_ = 0;
         daytime_ = daytime_ == DayTime::Day ? DayTime::Night : DayTime::Day;
@@ -68,6 +70,7 @@ void SceneManager::GenerateNewIndices() {
 
     moving_entities_indices_.clear();
     auto number_of_moving = std::min(entities_.size(), max_number_of_moving_entites_);
+    // During night 10 times less entities moves
     number_of_moving = daytime_ == DayTime::Day ? number_of_moving : number_of_moving / 10;
     for (int i = 0; i < number_of_moving; ++i) {
         moving_entities_indices_.insert(indices_gen_.Generate());
